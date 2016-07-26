@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 11:45:29 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/26 12:07:13 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,7 @@ int						shell_cd(char *cmd, char **argv);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
 int						lsh_launch(char **args);
+void					init_minishell(t_sh *data, char **envp);
+void					free_sh(t_sh *data);
+
 #endif
