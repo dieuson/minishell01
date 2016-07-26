@@ -6,13 +6,26 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 14:40:15 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 17:10:53 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			prompt(int argc, char **argv, char **envp, t_sh *data)
+int			verif_implements(char *cmd, t_sh *data)
+{
+	FT_INIT(char**, functions, data->imp_func);
+	FT_INIT(int, i, 0);
+	while (functions[i])
+	{
+		if (!ft_strcmp(cmd, functions[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int			prompt(t_sh *data)
 {
 	FT_INIT(char*, line, NULL);
 	FT_INIT(char**, commands, NULL);
@@ -27,12 +40,10 @@ int			prompt(int argc, char **argv, char **envp, t_sh *data)
 			if (pid == 0)
 			{
 				commands = lsh_read_line(line);
-				if (!ft_strcmp(commands[0], "cd"))
-					shell_cd("", commands);
-				else if (!ft_strcmp(commands[0], "ls"))
-					lsh_launch(commands);
+				if (verif_implements(commands[0], data))
+					distrib_functions(commands, data);
 				else
-					calls(data, commands);
+					lsh_launch(commands, data);
 				free_simple_tab(&commands);
 			}
 			ret  = 0;
@@ -40,8 +51,6 @@ int			prompt(int argc, char **argv, char **envp, t_sh *data)
 			ft_putstr("\n$> ");
 		}
 	}
-	if (argc || argv || envp)
-		return (0);
 	return (1);
 }
 
@@ -50,10 +59,14 @@ int			main(int argc, char **argv, char **envp)
 	t_sh	*data;
 
 	data = (t_sh *)malloc(sizeof(t_sh));
+	init_implement_functions(data);
 	init_env(&(data->env), envp, NULL);
 	ft_putstr("$> ");
-	if (!prompt(argc, argv, envp, data))
+	if (!prompt(data))
 			exit(0);
 	free(data);
+	free_env(data->imp_func);
+	if (argc || argv)
+		return (1);
 	return (0);
 }

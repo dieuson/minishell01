@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 14:37:05 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 17:01:31 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 # include "../srcs/libft/includes/libft.h"
 # include "../srcs/get_next_line/get_next_line.h"
 
@@ -26,12 +27,17 @@
 typedef struct 			s_sh
 {
 	char 				**env;
+	char				**imp_func;
 }						t_sh;
 
-int						shell_cd(char *cmd, char **argv);
+int						shell_cd(char **commands);
+int						verif_access(char* path, char *file);
+int						distrib_functions(char **commands, t_sh *data);
+
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
-int						lsh_launch(char **args);
+int						lsh_launch(char **args, t_sh *data);
+void					init_implement_functions(t_sh *data);
 int						init_env(char ***new_env, char **envp, char *var);
 void					free_env(char **env);
 int						calls(t_sh *data, char **commands);
@@ -41,13 +47,3 @@ int						msh_setenv(t_sh *data, char *new_var);
 int						msh_unsetenv(t_sh *data, char *to_del);
 
 #endif
-
-
-
-
-
-
-
-
-
-

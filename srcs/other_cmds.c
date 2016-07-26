@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:46:36 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 13:55:32 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 17:10:34 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,30 @@ int		shell_cmds(char *cmd, char **argv)
 	return (1);
 }
 
-int		lsh_launch(char **args)
+int		distrib_functions(char **commands, t_sh *data)
 {
-	int i;
-	char *tmp;
+	if (!ft_strcmp(commands[0], "cd"))
+		shell_cd(commands);
+	else if (!ft_strcmp(commands[0], "env"))
+		calls(data, commands);
+	else if (!ft_strcmp(commands[0], "setenv"))
+		calls(data, commands);
+	else if (!ft_strcmp(commands[0], "unsetenv"))
+		calls(data, commands);
+	return (0);
+}
 
-	tmp = NULL;
-	i = 0;
-	if (!args)
+int		lsh_launch(char **args, t_sh *data)
+{
+	FT_INIT(char*, cmd, NULL);
+	if (!args || !verif_access("/bin", args[1]))
 		return (0);
-	while (args[i])
+	cmd = ft_strjoin("/bin/", args[0]);
+	if (execve(cmd, args, data->env) == -1)
 	{
-		if (args[i] && !ft_strcmp(args[i], "ls"))
-		{
-			tmp = args[i];
-			args[i] = ft_strdup("/bin/ls");
-			ft_strdel(&tmp);
-		}
-		i++;
+		ft_putstr("minishell: command not found: ");
+		ft_putendl(args[0]);
+		return (0);
 	}
-	execve(args[0], args, NULL);
 	return (1);
 }
