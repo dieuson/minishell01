@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 11:41:49 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 11:45:29 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,8 @@ typedef struct 			s_sh
 	char 				**env;
 }						t_sh;
 
+int						shell_cd(char *cmd, char **argv);
+int						shell_cmds(char *cmd, char **argv);
+char					**lsh_read_line(char *line);
+int						lsh_launch(char **args);
 #endif
