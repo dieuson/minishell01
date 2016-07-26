@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 12:01:06 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/26 13:18:56 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 13:50:57 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void		free_env(char **env)
 	int i;
 
 	i = 0;
-	while (data->env[i])
+	while (env[i])
 	{
-		if (data->env[i])
-			free(data->env[i]);
+		if (env[i])
+			free(env[i]);
 		i++;
 	}
-	free(data->env);
+	free(env);
 }

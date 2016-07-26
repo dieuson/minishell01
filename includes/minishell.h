@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 12:25:29 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 14:37:05 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,22 @@ int						shell_cd(char *cmd, char **argv);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
 int						lsh_launch(char **args);
-void					init_env(char **new_env, char **envp, char *var);
+int						init_env(char ***new_env, char **envp, char *var);
 void					free_env(char **env);
+int						calls(t_sh *data, char **commands);
+
+int						msh_env(t_sh *data);
+int						msh_setenv(t_sh *data, char *new_var);
+int						msh_unsetenv(t_sh *data, char *to_del);
 
 #endif
+
+
+
+
+
+
+
+
+
+
