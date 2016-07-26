@@ -6,16 +6,11 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 11:52:13 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/26 11:55:13 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void init_minishell(t_sh *data)
-{
-	data->env = NULL;
-}
 
 int main(int argc, char **argv, char **envp)
 {
