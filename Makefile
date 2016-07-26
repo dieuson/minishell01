@@ -6,7 +6,7 @@
 #    By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/30 11:06:24 by dvirgile          #+#    #+#              #
-#    Updated: 2016/07/26 11:49:53 by dvirgile         ###   ########.fr        #
+#    Updated: 2016/07/26 12:10:59 by dvirgile         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -18,9 +18,9 @@ LIBFT = ./srcs/libft/
 FLAGS = -g -Wall -Wextra -Werror
 CC = gcc
 
-FILES = main.c get_next_line.c cd.c other_cmds.c
+FILES = main.c get_next_line.c cd.c other_cmds.c init.c free.c
 SRCS = $(DIR_SRCS)main.c srcs/get_next_line/get_next_line.c $(DIR_SRCS)cd.c\
-$(DIR_SRCS)other_cmds.c
+$(DIR_SRCS)other_cmds.c $(DIR_SRCS)init.c $(DIR_SRCS)free.c
 BIN = $(FILES:.c=.o)
 TILDE = $(SRC:.c=.c~) Makefile~
 
