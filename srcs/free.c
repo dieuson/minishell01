@@ -6,22 +6,22 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 12:01:06 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/26 12:02:52 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 13:18:56 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		free_sh(t_sh *data)
+void		free_env(char **env)
 {
 	int i;
 
 	i = 0;
 	while (data->env[i])
 	{
-		free(data->env[i]);
+		if (data->env[i])
+			free(data->env[i]);
 		i++;
 	}
 	free(data->env);
-	free(data);
 }

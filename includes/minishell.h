@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 12:07:13 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 12:25:29 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/wait.h>
 # include "../srcs/libft/includes/libft.h"
 # include "../srcs/get_next_line/get_next_line.h"
+
 # ifndef FT_INIT
 	# define FT_INIT(t, n, v) t n = v
 # endif
@@ -31,7 +32,7 @@ int						shell_cd(char *cmd, char **argv);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
 int						lsh_launch(char **args);
-void					init_minishell(t_sh *data, char **envp);
-void					free_sh(t_sh *data);
+void					init_env(char **new_env, char **envp, char *var);
+void					free_env(char **env);
 
 #endif
