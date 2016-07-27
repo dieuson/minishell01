@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:54:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/26 15:54:27 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/27 10:23:38 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void		init_implement_functions(t_sh *data)
 
 int			init_env(char ***new_env, char **envp, char *var)
 {
-	int		i;
-
-	i = 0;
+	FT_INIT(int, i, 0);
 	while (envp[i])
 		i++;
 	(*new_env) = (char **)malloc(sizeof(char *) * i + 1 + (var != NULL ? 1 : 0));

@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 17:01:31 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/27 10:21:51 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int						calls(t_sh *data, char **commands);
 int						msh_env(t_sh *data);
 int						msh_setenv(t_sh *data, char *new_var);
 int						msh_unsetenv(t_sh *data, char *to_del);
+int						check_varname(char *var, char *to_check);
 
 #endif
