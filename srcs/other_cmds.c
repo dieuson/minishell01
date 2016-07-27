@@ -6,11 +6,34 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:46:36 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/27 14:25:49 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/27 17:06:37 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		env_format(char *var)
+{
+	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
+	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=')));
+	if (ft_strchr(var, '=') == NULL)
+		return (0);
+	FT_INIT(char *, name, ft_strnew(i));
+	FT_INIT(char *, value, ft_strnew(j));
+	name = strncpy(name, var, i);
+	value = strncpy(value, var, j);
+	FT_MULTI3(i, j, 0);
+	if (ft_strchr(value, '='))
+		return (0);
+	while (name[i])
+	{
+		if (name[i] < 'A' || name[i] > 'Z')
+			if (name[i] != '_')
+				return (0);
+		i++;
+	}
+	return (1);
+}
 
 int		shell_cmds(char *cmd, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/27 14:21:46 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/27 17:07:06 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,17 @@ int		msh_setenv(t_sh *data, char *new_var)
 {
 	char	**tmp;
 
+	printf("coucou1\n");
 	if (setenv_check(data, new_var))
 		return (0);
+	printf("coucou2\n");
+	if (!env_format(new_var))
+	{
+		ft_putstr("Wrong env variable format.\n"
+		"Should be the following format : NAME=value. '_' character is allowed in"
+		"the name of the variable, and '=' character is forbidden in the value.");
+		return (1);
+	}
 	tmp = NULL;
 	init_env(&tmp, data->env, new_var);
 	free_env(data->env);
