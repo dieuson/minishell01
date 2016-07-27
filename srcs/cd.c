@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 16:15:49 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/27 10:01:26 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		verif_access(char *path, char *file)
 		return (error_cd("not a directory", file));
 	return (1);
 }
+
 int shell_cd(char **commands)
 {
 	FT_INIT(char*, tmp, NULL);
