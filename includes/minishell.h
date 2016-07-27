@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/27 10:21:51 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/27 11:44:01 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
+# include <signal.h>
 # include "../srcs/libft/includes/libft.h"
 # include "../srcs/get_next_line/get_next_line.h"
 
 # ifndef FT_INIT
 	# define FT_INIT(t, n, v) t n = v
+# endif
+
+# ifndef FT_MULTI3
+	# define FT_MULTI3(a, b, c) a = b = c
 # endif
 
 typedef struct 			s_sh

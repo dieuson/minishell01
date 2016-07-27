@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:46:36 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 17:10:34 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/27 14:25:49 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int		distrib_functions(char **commands, t_sh *data)
 		calls(data, commands);
 	else if (!ft_strcmp(commands[0], "unsetenv"))
 		calls(data, commands);
+	else if (!ft_strcmp(commands[0], "exit"))
+		exit(EXIT_SUCCESS);
 	return (0);
 }
 

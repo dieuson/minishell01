@@ -6,32 +6,51 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/27 10:26:20 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/27 14:21:46 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		check_varname(char *var, char *to_check)
+int		check_varname(char *var, char *check)
 {
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (var[i] != '=')
-		i++;
-	tmp = (char *)malloc(sizeof(char) * i);
-	ft_strncpy(tmp, var, i);
-	if (!ft_strcmp(tmp, to_check))
+	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
+	FT_INIT(int, j, 1);
+	if (ft_strchr(check, '=') != NULL)
+		j = ft_strlen(check) - ft_strlen(ft_strchr(check, '='));
+	FT_INIT(char *, var_name, ft_strnew(i));
+	FT_INIT(char *, check_name, ft_strnew(j));
+	var_name = ft_strncpy(var_name, var, i);
+	check_name = ft_strncpy(check_name, check, j);
+//	printf("var = %s, check = %s, var_name = %s\n", var, check, var_name);
+	if (!ft_strcmp(var_name, check) || !ft_strcmp(check_name, var_name))
 	{
-		free(tmp);
+		free(var_name);
+		free(check_name);
 		return (1);
 	}
 	else
 	{
-		free(tmp);
+		free(var_name);
+		free(check_name);
 		return (0);
 	}
+}
+
+static int		setenv_check(t_sh *data, char *new_var)
+{
+	FT_INIT(int, i, 0);
+	while (data->env[i])
+	{
+		if (check_varname(data->env[i], new_var))
+		{
+			free(data->env[i]);
+			data->env[i] = ft_strdup(new_var);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 int		msh_env(t_sh *data)
@@ -53,41 +72,45 @@ int		msh_setenv(t_sh *data, char *new_var)
 {
 	char	**tmp;
 
-	FT_INIT(int, i, 0);
-	FT_INIT(int, check, 0);
-
+	if (setenv_check(data, new_var))
+		return (0);
 	tmp = NULL;
 	init_env(&tmp, data->env, new_var);
 	free_env(data->env);
 	init_env(&(data->env), tmp, NULL);
-	free_env(tmp);
+//	free_env(tmp);
 	return (0);
 }
 
 int		msh_unsetenv(t_sh *data, char *to_del)
 {
 	char	**tmp;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	while (data->env[i])
-		i++;
-	tmp = (char **)malloc(sizeof(char *) * i);
-	i = 0;
+	FT_INIT(int, i, 0);
+	FT_INIT(int, j, 0);
 	while (data->env[i])
 	{
-		if (data->env[i] && !check_varname(data->env[i], to_del))
+		j += (check_varname(data->env[i], to_del)) ? 1 : 0;
+		i++;
+	}
+	printf("1\n");
+	if (!j)
+		return (0);
+	printf("2\n");
+	tmp = (char **)malloc(sizeof(char *) * i);
+	FT_MULTI3(i, j, 0);
+	while (data->env[i])
+	{
+		if (data->env[i] && !(check_varname(data->env[i], to_del)))
 		{
 			tmp[j] = ft_strdup(data->env[i]);
 			j++;
 		}
 		i++;
 	}
-	tmp[i] = NULL;
+	tmp[j] = NULL;
 	free_env(data->env);
 	init_env(&(data->env), tmp, NULL);
-	free_env(tmp);
+//	free_env(tmp);
 	return (0);
 }

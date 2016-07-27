@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/26 17:10:53 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/27 14:26:47 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ int			prompt(t_sh *data)
 	FT_INIT(char**, commands, NULL);
 	FT_INIT(int, ret, 0);
 	FT_INIT(pid_t, pid, 0);
+	FT_INIT(pid_t, pid_init, pid);
 	while (1)
 	{
 		ret = get_next_line(0, &line);
 		if (ret)
 		{
 			pid = fork();
+			if (pid > 0)
+				pid_init = pid;
 			if (pid == 0)
 			{
 				commands = lsh_read_line(line);
@@ -64,8 +67,8 @@ int			main(int argc, char **argv, char **envp)
 	ft_putstr("$> ");
 	if (!prompt(data))
 			exit(0);
-	free(data);
 	free_env(data->imp_func);
+	free(data);
 	if (argc || argv)
 		return (1);
 	return (0);

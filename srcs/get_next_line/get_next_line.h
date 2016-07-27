@@ -3,23 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/30 13:38:27 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/02/09 09:48:00 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/01/04 10:22:16 by sgaudin           #+#    #+#             */
+/*   Updated: 2016/07/27 11:04:00 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
 # include "../libft/includes/libft.h"
-# define BUFF_SIZE 16
+# define BUFF_SIZE 80
 
-typedef struct		s_docker
-{
-	int pointeur;
-}					t_docker;
-
-int					get_next_line(int const fd, char **line);
+int		get_next_line(int const fd, char **line);
 
 #endif
