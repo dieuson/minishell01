@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/27 16:58:08 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/28 16:22:47 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef struct 			s_sh
 {
 	char 				**env;
 	char				**imp_func;
+	char				**bin_directories;
 }						t_sh;
 
 int						shell_cd(char **commands);
 int						verif_access(char* path, char *file);
 int						distrib_functions(char **commands, t_sh *data);
 
+char**					get_bin_directories(char **envp);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
 int						lsh_launch(char **args, t_sh *data);

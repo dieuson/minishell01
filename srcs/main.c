@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/27 17:06:15 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/07/28 17:18:26 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,8 @@ int			prompt(t_sh *data)
 			}
 			ret  = 0;
 			if (pid == 0)
-			{
-				printf("Kill signal\n");
-//				kill(pid_init, SIGKILL);
 				exit(0);
-			}
 			wait(&pid);
-			printf("Kill PID pid =%d\n", pid);
 			ft_putstr("\n$> ");
 		}
 	}
@@ -69,10 +64,13 @@ int			main(int argc, char **argv, char **envp)
 	data = (t_sh *)malloc(sizeof(t_sh));
 	init_implement_functions(data);
 	init_env(&(data->env), envp, NULL);
+	data->bin_directories = get_bin_directories(envp);
 	ft_putstr("$> ");
 	if (!prompt(data))
 			exit(0);
 	free_env(data->imp_func);
+	if (data->bin_directories)
+		free_env(data->bin_directories);
 	free(data);
 	if (argc || argv)
 		return (1);

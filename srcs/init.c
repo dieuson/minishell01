@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:54:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/07/28 15:16:58 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/28 16:51:24 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void		init_implement_functions(t_sh *data)
 {
-	data->imp_func = (char**)malloc(sizeof(char*) * 7);
+	if (!(data->imp_func = (char**)malloc(sizeof(char*) * 7)))
+		return ;
 	data->imp_func[0] = ft_strdup("echo");
 	data->imp_func[1] = ft_strdup("cd");
 	data->imp_func[2] = ft_strdup("setenv");
@@ -22,6 +23,27 @@ void		init_implement_functions(t_sh *data)
 	data->imp_func[4] = ft_strdup("env");
 	data->imp_func[5] = ft_strdup("exit");
 	data->imp_func[6] = NULL;
+}
+
+char		**get_bin_directories(char **envp)
+{
+	FT_INIT(char**, bin_directories, NULL);
+	FT_INIT(int, i, 0);
+	FT_INIT(char*, tmp, NULL);
+	if (!envp)
+		return (NULL);
+	while(envp && envp[i])
+	{
+		if (envp && !ft_strncmp(envp[i], "PATH=", 5))
+		{
+			tmp = ft_strchr(envp[i], '=') + 1;
+			if (tmp)
+				bin_directories = ft_strsplit(tmp, ':');
+			break ;
+		}
+		i++;
+	}
+	return (bin_directories);
 }
 /*
 void		init_null(char ***new_env, int j)
