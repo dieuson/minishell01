@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/27 17:06:15 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/08/06 15:46:09 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			prompt(t_sh *data)
 		if (ret)
 		{
 			pid = fork();
-			printf("\npid =%d\n", pid);
+//			printf("\npid =%d\n", pid);
 			if (pid == 0)
 			{
 				commands = lsh_read_line(line);
@@ -47,15 +47,15 @@ int			prompt(t_sh *data)
 					lsh_launch(commands, data);
 				free_simple_tab(&commands);
 			}
-			ret  = 0;
+			ret = 0;
 			if (pid == 0)
 			{
-				printf("Kill signal\n");
+//				printf("Kill signal\n");
 //				kill(pid_init, SIGKILL);
 				exit(0);
 			}
 			wait(&pid);
-			printf("Kill PID pid =%d\n", pid);
+//			printf("Kill PID pid =%d\n", pid);
 			ft_putstr("\n$> ");
 		}
 	}

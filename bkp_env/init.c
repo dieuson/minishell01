@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:54:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/06 16:04:14 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/06 15:27:48 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,30 @@ void		init_null(char ***new_env, int j)
 int			init_env(char ***new_env, char **envp, char *var)
 {
 	FT_INIT(int, i, 0);
+//	printf("envp[i] = %s\n", envp[i]);
 	while (envp && envp[i])
 		i++;
-	FT_INIT(int, var_malloc, i + ((var != NULL) ? 1 : 0) + 1);
-	printf("var_malloc = %d\n", var_malloc);
-	(*new_env) = (char **)malloc(sizeof(char *) * var_malloc);
+	(*new_env) = (char **)malloc(sizeof(char *) * i + ((var != NULL) ? 1 : 0));
 	if (!(*new_env))
 		return (1);
+//	init_null(new_env, i + (var != NULL ? 1 : 0));
 	i = 0;
 	while (envp[i])
 	{
 		(*new_env)[i] = ft_strdup(envp[i]);
 		i++;
 	}
+//	printf("(*new_env)[0] = %s\n", (*new_env)[0]);
 	if (var != NULL)
 	{
+//		printf("var = %s, i = %d\n", var, i);
+//		printf("(*new_env)[0] = %s\n", (*new_env)[0]);
 		(*new_env)[i] = ft_strdup(var);
+//		printf("coucou %s\n", (*new_env)[i]);
 		i++;
 	}
+//	printf("(*new_env)[0] = %s, new_env[i - 1] = %s\n", (*new_env)[0], (*new_env)[i - 1]);
 	(*new_env)[i] = NULL;
+//	printf("(*new_env)[0] = %s, new_env[i] = %s, new_env[i - 1] = %s\n", (*new_env)[0], (*new_env)[i], (*new_env)[i - 1]);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 13:56:30 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/06 16:29:14 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/07/26 14:39:30 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int		calls(t_sh *data, char **commands)
 		msh_setenv(data, commands[1]);
 	else if (!ft_strcmp("unsetenv", commands[0]))
 		msh_unsetenv(data, commands[1]);
-	else if (!ft_strcmp("echo", commands[0]))
-		msh_echo(data, commands);
 	else if (!ft_strcmp("exit", commands[0]))
 		exit(EXIT_SUCCESS);
 	else

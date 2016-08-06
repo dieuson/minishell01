@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/06 16:07:23 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/06 15:27:07 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int		msh_env(t_sh *data)
 
 int		msh_setenv(t_sh *data, char *new_var)
 {
+	char	**tmp;
+
 	FT_INIT(int, i, 0);
-	FT_INIT(char **, tmp, NULL);
 	if (setenv_check(data, new_var))
 		return (0);
 	if (!env_format(new_var))
@@ -83,15 +84,28 @@ int		msh_setenv(t_sh *data, char *new_var)
 		"the name of the variable, and '=' character is forbidden in the value.");
 		return (1);
 	}
+	tmp = NULL;
+//	printf("\n\n1\n\n");
 	init_env(&tmp, data->env, new_var);
 	while (tmp[i])
+	{
+//		printf("1 - %s\n", tmp[i]);
 		i++;
+//		printf("iter done\n");
+	}
+//	printf("\n\n2\n\n");
 	free_env(data->env);
 	data->env = NULL;
+//	printf("\n\n3\n\n");
 	init_env(&(data->env), tmp, NULL);
 	i = 0;
 	while (data->env[i])
+	{
+//		printf("2 - %s\n", data->env[i]);
 		i++;
+	}
+//	printf("\n\n4\n\n");
+//	free_env(tmp);
 	return (0);
 }
 

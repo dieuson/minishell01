@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:46:36 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/06 16:27:53 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/06 16:17:46 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int		env_format(char *var)
 {
-	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
-	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=')) - 1);
 	if (ft_strchr(var, '=') == NULL)
 		return (0);
+	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
+	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=')) - 1);
 	FT_INIT(char *, name, ft_strnew(i));
 	FT_INIT(char *, value, ft_strnew(j));
 	name = strncpy(name, var, i);
@@ -50,21 +50,21 @@ int		shell_cmds(char *cmd, char **argv)
 
 int		distrib_functions(char **commands, t_sh *data)
 {
-	if (!ft_strcmp(commands[0], "cd"))
-		shell_cd(commands);
-	else if (!ft_strcmp(commands[0], "env"))
+//	if (!ft_strcmp(commands[0], "cd"))
+//		shell_cd(commands);
+	if (!ft_strcmp(commands[0], "env"))
 		calls(data, commands);
 	else if (!ft_strcmp(commands[0], "setenv"))
 		calls(data, commands);
 	else if (!ft_strcmp(commands[0], "unsetenv"))
 		calls(data, commands);
-	else if (!ft_strcmp(commands[0], "echo"))
-		calls(data, commands);
 	else if (!ft_strcmp(commands[0], "exit"))
 		exit(EXIT_SUCCESS);
+	else
+		exit(EXIT_FAILURE);
 	return (0);
 }
-
+/*
 int		lsh_launch(char **args, t_sh *data)
 {
 	FT_INIT(char*, cmd, NULL);
@@ -78,4 +78,22 @@ int		lsh_launch(char **args, t_sh *data)
 		return (0);
 	}
 	return (1);
+}
+*/
+char		**lsh_read_line(char *line)
+{
+	char **commands;
+
+	commands = NULL;
+	if (!line)
+		return (NULL);
+	if (ft_strchr(line, ' '))
+		commands = ft_strsplit(line, ' ');
+	else
+	{
+		commands = (char**)malloc(sizeof(char*) * 2);
+		commands[0] = line;
+		commands[1] = NULL;
+	}
+	return (commands);
 }
