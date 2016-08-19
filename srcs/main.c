@@ -6,11 +6,8 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2016/08/06 15:46:09 by sgaudin          ###   ########.fr       */
-=======
 /*   Updated: 2016/07/28 17:18:26 by dvirgile         ###   ########.fr       */
->>>>>>> ca7f1b9024bfd24ce9556606c75084fcd9897388
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +50,14 @@ int			prompt(t_sh *data)
 			}
 			ret = 0;
 			if (pid == 0)
-<<<<<<< HEAD
 			{
 //				printf("Kill signal\n");
 //				kill(pid_init, SIGKILL);
-=======
->>>>>>> ca7f1b9024bfd24ce9556606c75084fcd9897388
 				exit(0);
 			wait(&pid);
-<<<<<<< HEAD
 //			printf("Kill PID pid =%d\n", pid);
-=======
->>>>>>> ca7f1b9024bfd24ce9556606c75084fcd9897388
 			ft_putstr("\n$> ");
+			}
 		}
 	}
 	return (1);
