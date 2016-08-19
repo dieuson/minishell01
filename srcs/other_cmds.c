@@ -53,31 +53,46 @@ int		distrib_functions(char **commands, t_sh *data)
 	return (0);
 }
 
+int		verif_access_others(char *path)
+{
+	struct stat infos;
+
+	lstat(path, &infos);
+	if (access(path, F_OK) != 0)
+		return (0);
+	else if (access(path, X_OK) != 0 || !S_ISDIR(infos.st_mode))
+		return (0);
+	else if (!S_ISDIR(infos.st_mode))
+		return (0);
+	return (1);
+}
+
 int		lsh_launch(char **args, t_sh *data)
 {
 	FT_INIT(char*, cmd, NULL);
 	FT_INIT(char*, tmp, NULL);
 	FT_INIT(int, i, 0);
 	FT_INIT(char**, bin_directories, data->bin_directories);
-	if (!bin_directories)
+	if (!args || !bin_directories)
 		return (0);
 //	free_env(data->bin_directories);
 	data->bin_directories = get_bin_directories(data->env);
 	while (bin_directories && bin_directories[i])
 	{
-		if (!args || !verif_access(bin_directories[i], args[0]))
-			return (0);
-		cmd = ft_strjoin(bin_directories[i], "/");
-		tmp = cmd;
-		cmd = ft_strjoin(cmd, args[0]);
-		ft_strdel(&tmp);
-		printf("cmd=%s,\n", cmd);
-		if (execve(cmd, args, data->env) != -1)
+		if (verif_access_others(bin_directories[i]))
 		{
+			cmd = ft_strjoin(bin_directories[i], "/");
+			tmp = cmd;
+			cmd = ft_strjoin(cmd, args[0]);
+			ft_strdel(&tmp);
+			printf("cmd=%s,\n", cmd);
+			if (execve(cmd, args, data->env) != -1)
+			{
+				ft_strdel(&cmd);
+				return (1);
+			}
 			ft_strdel(&cmd);
-			return (1);
 		}
-		ft_strdel(&cmd);
 		i++;
 	}
 	ft_putstr("minishell: command not found: ");

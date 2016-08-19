@@ -37,28 +37,24 @@ int			prompt(t_sh *data)
 		ret = get_next_line(0, &line);
 		if (ret)
 		{
-			pid = fork();
-//			printf("\npid =%d\n", pid);
-			if (pid == 0)
+			commands = lsh_read_line(line);
+			if (verif_implements(commands[0], data))
+				distrib_functions(commands, data);
+			else
 			{
-				commands = lsh_read_line(line);
-				if (verif_implements(commands[0], data))
-					distrib_functions(commands, data);
-				else
+				ft_putendl("fork\n");
+				pid = fork();
+				if (pid == 0)
+				{
 					lsh_launch(commands, data);
-				free_simple_tab(&commands);
+					exit(0);				
+				}
 			}
-			ret = 0;
-			if (pid == 0)
-			{
-//				printf("Kill signal\n");
-//				kill(pid_init, SIGKILL);
-				exit(0);
-			wait(&pid);
-//			printf("Kill PID pid =%d\n", pid);
-			ft_putstr("\n$> ");
-			}
+			free_simple_tab(&commands);
 		}
+		ret = 0;
+		wait(&pid);
+		ft_putstr("\n$> ");
 	}
 	return (1);
 }
