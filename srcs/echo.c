@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 16:32:43 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/06 17:18:34 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/19 16:35:49 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	var_exists(t_sh *data, char *var)
 	{
 		if (check_varname(data->env[i], var))
 		{
-			ft_putstr(ft_strchr(data->env[i], '='));
+			ft_putstr(ft_strchr(data->env[i], '=') + 1);
 			return (1);
 		}
 		i++;
@@ -30,7 +30,7 @@ static int	var_exists(t_sh *data, char *var)
 static int	recup_var(t_sh *data, char *line, int i)
 {
 	FT_INIT(int, j, 0);
-	FT_INIT(char *, var, NULL);
+	FT_INIT(char *, var, (char *)malloc(sizeof(char) * 100));
 	i++;
 	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 	{
@@ -50,6 +50,7 @@ static int	recup_var(t_sh *data, char *line, int i)
 int			msh_echo_env(t_sh *data, char *line)
 {
 	FT_INIT(int, i, 0);
+	FT_INIT(int, ret, 0);
 	while (line[i])
 	{
 		if (line[i] == '$')
@@ -60,7 +61,8 @@ int			msh_echo_env(t_sh *data, char *line)
 	}
 	if (i <= (int)ft_strlen(line) && line[i] == '$')
 	{
-		if (recup_var(data, line, i) == -1 || recup_var(data, line, i) == 0)
+		ret = recup_var(data, line, i);
+		if (ret == -1 || ret == 0)
 			return (0);
 		while (line && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 			i++;
