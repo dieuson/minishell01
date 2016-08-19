@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 16:32:43 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/19 16:35:49 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/19 16:53:10 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	var_exists(t_sh *data, char *var)
 static int	recup_var(t_sh *data, char *line, int i)
 {
 	FT_INIT(int, j, 0);
-	FT_INIT(char *, var, (char *)malloc(sizeof(char) * 100));
+	FT_INIT(char *, var, (char *)malloc(sizeof(char) * 200));
 	i++;
 	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 	{
