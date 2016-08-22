@@ -42,7 +42,6 @@ int			prompt(t_sh *data)
 				distrib_functions(commands, data);
 			else
 			{
-				ft_putendl("fork\n");
 				pid = fork();
 				if (pid == 0)
 				{

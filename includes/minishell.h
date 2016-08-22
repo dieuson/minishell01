@@ -37,7 +37,7 @@ typedef struct 			s_sh
 	char				**bin_directories;
 }						t_sh;
 
-int						shell_cd(char **commands);
+int 					shell_cd(char **commands, t_sh *data);
 int						verif_access(char* path, char *file);
 int						distrib_functions(char **commands, t_sh *data);
 

@@ -39,7 +39,7 @@ int		env_format(char *var)
 int		distrib_functions(char **commands, t_sh *data)
 {
 	if (!ft_strcmp(commands[0], "cd"))
-		shell_cd(commands);
+		shell_cd(commands, data);
 	else if (!ft_strcmp(commands[0], "env"))
 		calls(data, commands);
 	else if (!ft_strcmp(commands[0], "setenv"))
@@ -85,7 +85,6 @@ int		lsh_launch(char **args, t_sh *data)
 			tmp = cmd;
 			cmd = ft_strjoin(cmd, args[0]);
 			ft_strdel(&tmp);
-			printf("cmd=%s,\n", cmd);
 			if (execve(cmd, args, data->env) != -1)
 			{
 				ft_strdel(&cmd);
