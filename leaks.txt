@@ -1,0 +1,1 @@
+setenv aui garde la ligne entiere de la commande rentree
