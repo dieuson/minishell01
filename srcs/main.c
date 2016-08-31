@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/31 10:49:13 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/31 15:12:54 by dvirgile         ###   ########.fr       */
 /*   Updated: 2016/07/28 17:18:26 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -35,9 +35,10 @@ int			prompt(t_sh *data)
 	while (1)
 	{
 		ret = get_next_line(0, &line);
-		if (ret)
+		if (ret && ft_strlen(line))
 		{
 			commands = lsh_read_line(line);
+			free(line);
 			if (verif_implements(commands[0], data))
 				distrib_functions(commands, data);
 			else
@@ -68,8 +69,9 @@ int			main(int argc, char **argv, char **envp)
 	data->bin_directories = get_bin_directories(envp);
 	ft_putstr("$> ");
 	if (!prompt(data))
-			exit(0);
-	free_env(data->imp_func);
+		exit(0);
+	if (data->imp_func)
+		free_env(data->imp_func);
 	if (data->bin_directories)
 		free_env(data->bin_directories);
 	free(data);

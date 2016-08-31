@@ -6,7 +6,7 @@
 /*   By: sgaudin <sgaudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/31 11:04:06 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/31 11:04:07 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/31 15:12:01 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int		lsh_launch(char **args, t_sh *data)
 	FT_INIT(char**, bin_directories, NULL);
 	if (!args || !data->bin_directories)
 		return (0);
-//	free_env(data->bin_directories);
 	data->bin_directories = get_bin_directories(data->env);
 	bin_directories = data->bin_directories;
 	while (bin_directories && bin_directories[i])
