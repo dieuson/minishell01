@@ -12,13 +12,14 @@
 
 #include "../includes/minishell.h"
 
-static void free_la_flemme(char **name, char **value)
+static int	free_la_flemme(char **name, char **value)
 {
 	free((*name));
 	free((*value));
+	return (0);
 }
 
-int		env_format(char *var)
+int			env_format(char *var)
 {
 	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
 	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=') + 1));
@@ -30,25 +31,19 @@ int		env_format(char *var)
 	ft_strcpy(value, ft_strchr(var, '=') + 1);
 	FT_MULTI3(i, j, 0);
 	if (ft_strchr(value, '='))
-	{
-		free_la_flemme(&name, &value);
-		return (0);
-	}
+		return (free_la_flemme(&name, &value));
 	while (name[i])
 	{
 		if (name[i] < 'A' || name[i] > 'Z')
 			if (name[i] != '_')
-			{
-				free_la_flemme(&name, &value);
-				return (0);
-			}
+				return (free_la_flemme(&name, &value));
 		i++;
 	}
 	free_la_flemme(&name, &value);
 	return (1);
 }
 
-int		distrib_functions(char **commands, t_sh *data)
+int			distrib_functions(char **commands, t_sh *data)
 {
 	if (!ft_strcmp(commands[0], "cd"))
 		shell_cd(commands, data);
@@ -65,7 +60,7 @@ int		distrib_functions(char **commands, t_sh *data)
 	return (0);
 }
 
-int		verif_access_others(char *path)
+int			verif_access_others(char *path)
 {
 	struct stat infos;
 
@@ -79,21 +74,18 @@ int		verif_access_others(char *path)
 	return (1);
 }
 
-int		lsh_launch(char **args, t_sh *data)
+int			lsh_launch(char **args, t_sh *data, int i)
 {
 	FT_INIT(char*, cmd, NULL);
 	FT_INIT(char*, tmp, NULL);
-	FT_INIT(int, i, 0);
-	FT_INIT(char**, bin_directories, NULL);
-	if (!args || !data->bin_directories)
+	if (!args)
 		return (0);
 	data->bin_directories = get_bin_directories(data->env);
-	bin_directories = data->bin_directories;
-	while (bin_directories && bin_directories[i])
+	while (data->bin_directories && data->bin_directories[i])
 	{
-		if (verif_access_others(bin_directories[i]))
+		if (verif_access_others(data->bin_directories[i]))
 		{
-			cmd = ft_strjoin(bin_directories[i], "/");
+			cmd = ft_strjoin(data->bin_directories[i], "/");
 			tmp = cmd;
 			cmd = ft_strjoin(cmd, args[0]);
 			ft_strdel(&tmp);

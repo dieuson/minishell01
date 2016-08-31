@@ -43,7 +43,7 @@ int						distrib_functions(char **commands, t_sh *data);
 char					**get_bin_directories(char **envp);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
-int						lsh_launch(char **args, t_sh *data);
+int						lsh_launch(char **args, t_sh *data, int i);
 void					init_implement_functions(t_sh *data);
 int						init_env(char ***new_env, char **envp, char *var);
 void					free_env(char **env);

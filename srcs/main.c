@@ -43,7 +43,7 @@ void		prompt(t_sh *data, int ret, int pid)
 				pid = fork();
 				if (pid == 0)
 				{
-					lsh_launch(commands, data);
+					lsh_launch(commands, data, 0);
 					exit(0);
 				}
 			}
