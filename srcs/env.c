@@ -92,6 +92,7 @@ int		msh_setenv(t_sh *data, char *new_var)
 	i = 0;
 	while (data->env[i])
 		i++;
+	free_env(tmp);
 	return (0);
 }
 
@@ -124,6 +125,6 @@ int		msh_unsetenv(t_sh *data, char *to_del)
 	tmp[j] = NULL;
 	free_env(data->env);
 	init_env(&(data->env), tmp, NULL);
-//	free_env(tmp);
+	free_env(tmp);
 	return (0);
 }

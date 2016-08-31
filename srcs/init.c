@@ -66,7 +66,6 @@ int			init_env(char ***new_env, char **envp, char *var)
 	while (envp && envp[i])
 		i++;
 	FT_INIT(int, var_malloc, i + ((var != NULL) ? 1 : 0) + 1);
-	printf("var_malloc = %d\n", var_malloc);
 	(*new_env) = (char **)malloc(sizeof(char *) * var_malloc);
 	if (!(*new_env))
 		return (1);
