@@ -56,16 +56,24 @@ int			msh_echo_env(t_sh *data, char *line)
 	FT_INIT(int, ret, 0);
 	while (line[i])
 	{
-		if (i <= (int)ft_strlen(line) && line[i] == '$')
-		{
-			ret = recup_var(data, line, i);
-			if (ret == -1 || ret == 0)
-				return (0);
-			while (line && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
-				i++;
-		}
-		ft_putchar(line[i]);
+		if (line[i] == '$')
+			break ;
+		else
+			ft_putchar(line[i]);
 		i++;
+	}
+	if (i <= (int)ft_strlen(line) && line[i] == '$')
+	{
+		ret = recup_var(data, line, i);
+		if (ret == -1 || ret == 0)
+			return (0);
+		while (line && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			i++;
+		while (line[i])
+		{
+			ft_putchar(line[i]);
+			i++;
+		}
 	}
 	return (1);
 }

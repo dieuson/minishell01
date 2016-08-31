@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		check_varname(char *var, char *check)
+int			check_varname(char *var, char *check)
 {
 	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
 	FT_INIT(int, j, 1);
@@ -22,7 +22,6 @@ int		check_varname(char *var, char *check)
 	FT_INIT(char *, check_name, ft_strnew(j));
 	var_name = ft_strncpy(var_name, var, i);
 	check_name = ft_strncpy(check_name, check, j);
-//	printf("var = %s, check = %s, var_name = %s\n", var, check, var_name);
 	if (!ft_strcmp(var_name, check) || !ft_strcmp(check_name, var_name))
 	{
 		free(var_name);
@@ -37,7 +36,7 @@ int		check_varname(char *var, char *check)
 	}
 }
 
-static int		setenv_check(t_sh *data, char *new_var)
+static int	setenv_check(t_sh *data, char *new_var)
 {
 	FT_INIT(int, i, 0);
 	while (data->env[i])
@@ -53,7 +52,7 @@ static int		setenv_check(t_sh *data, char *new_var)
 	return (0);
 }
 
-int		msh_env(t_sh *data)
+int			msh_env(t_sh *data)
 {
 	int		i;
 
@@ -70,7 +69,7 @@ int		msh_env(t_sh *data)
 	return (0);
 }
 
-int		msh_setenv(t_sh *data, char *new_var)
+int			msh_setenv(t_sh *data, char *new_var)
 {
 	FT_INIT(int, i, 0);
 	FT_INIT(char **, tmp, NULL);
@@ -78,9 +77,10 @@ int		msh_setenv(t_sh *data, char *new_var)
 		return (0);
 	if (!env_format(new_var))
 	{
-		ft_putstr("Wrong env variable format.\n"
-		"Should be the following format : NAME=value. '_' character is allowed in"
-		"the name of the variable, and '=' character is forbidden in the value.");
+		ft_putstr("Wrong env variable format.\n Should be the"
+		" following format : NAME=value. '_' character is allowed in"
+		" the name of the variable, and '=' character is forbidden in"
+		" the value.");
 		return (1);
 	}
 	init_env(&tmp, data->env, new_var);
@@ -96,10 +96,9 @@ int		msh_setenv(t_sh *data, char *new_var)
 	return (0);
 }
 
-int		msh_unsetenv(t_sh *data, char *to_del)
+int			msh_unsetenv(t_sh *data, char *to_del)
 {
-	char	**tmp;
-
+	FT_INIT(char **, tmp, NULL);
 	FT_INIT(int, i, 0);
 	FT_INIT(int, j, 0);
 	while (data->env[i])
@@ -107,11 +106,8 @@ int		msh_unsetenv(t_sh *data, char *to_del)
 		j += (check_varname(data->env[i], to_del)) ? 1 : 0;
 		i++;
 	}
-//	printf("1\n");
-	if (!j)
+	if (!j || !(tmp = (char **)malloc(sizeof(char *) * i)))
 		return (0);
-//	printf("2\n");
-	tmp = (char **)malloc(sizeof(char *) * i);
 	FT_MULTI3(i, j, 0);
 	while (data->env[i])
 	{

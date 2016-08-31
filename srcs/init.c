@@ -5,9 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/26 11:54:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/31 10:56:08 by sgaudin          ###   ########.fr       */
-/*   Updated: 2016/07/28 16:51:24 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/08/31 17:10:17 by sgaudin           #+#    #+#             */
+/*   Updated: 2016/08/31 17:10:18 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +32,7 @@ char		**get_bin_directories(char **envp)
 	FT_INIT(char*, tmp, NULL);
 	if (!envp)
 		return (NULL);
-	while(envp && envp[i])
+	while (envp && envp[i])
 	{
 		if (envp && !ft_strncmp(envp[i], "PATH=", 5))
 		{
@@ -46,20 +45,7 @@ char		**get_bin_directories(char **envp)
 	}
 	return (bin_directories);
 }
-/*
-void		init_null(char ***new_env, int j)
-{
-	int i;
 
-	i = 0;
-	while (i <= j)
-	{
-		(*new_env)[i] = NULL;
-		i++;
-	}
-	printf("j = %d\n", j);
-}
-*/
 int			init_env(char ***new_env, char **envp, char *var)
 {
 	FT_INIT(int, i, 0);

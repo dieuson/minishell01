@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/31 15:12:54 by dvirgile         ###   ########.fr       */
-/*   Updated: 2016/07/28 17:18:26 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/08/31 17:16:37 by sgaudin           #+#    #+#             */
+/*   Updated: 2016/08/31 17:16:38 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +25,10 @@ int			verif_implements(char *cmd, t_sh *data)
 	return (0);
 }
 
-int			prompt(t_sh *data)
+void		prompt(t_sh *data, int ret, int pid)
 {
 	FT_INIT(char*, line, NULL);
 	FT_INIT(char**, commands, NULL);
-	FT_INIT(int, ret, 0);
-	FT_INIT(pid_t, pid, 0);
 	while (1)
 	{
 		ret = get_next_line(0, &line);
@@ -52,11 +49,9 @@ int			prompt(t_sh *data)
 			}
 			free_simple_tab(&commands);
 		}
-		ret = 0;
 		wait(&pid);
 		ft_putstr("\n$> ");
 	}
-	return (1);
 }
 
 int			main(int argc, char **argv, char **envp)
@@ -68,8 +63,7 @@ int			main(int argc, char **argv, char **envp)
 	init_env(&(data->env), envp, NULL);
 	data->bin_directories = get_bin_directories(envp);
 	ft_putstr("$> ");
-	if (!prompt(data))
-		exit(0);
+	prompt(data, 0, 0);
 	if (data->imp_func)
 		free_env(data->imp_func);
 	if (data->bin_directories)

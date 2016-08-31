@@ -1,3 +1,0 @@
-setenv qui garde la ligne entiere de la commande rentree
-ls avec options, meme probleme que les autres, ligne pas free. ls sans parametres ne pose pas de probleme
-echo $PATH par ex. quand on echo une var d'env il garde "PATH"

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/30 10:32:23 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/06 17:17:30 by sgaudin          ###   ########.fr       */
-/*   Updated: 2016/07/28 16:22:47 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/08/31 17:25:22 by sgaudin           #+#    #+#             */
+/*   Updated: 2016/08/31 17:29:35 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		MINISHELL_H
-# define	MINISHELL_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/types.h>
@@ -23,25 +22,25 @@
 # include "../srcs/get_next_line/get_next_line.h"
 
 # ifndef FT_INIT
-	# define FT_INIT(t, n, v) t n = v
+#  define FT_INIT(t, n, v) t n = v
 # endif
 
 # ifndef FT_MULTI3
-	# define FT_MULTI3(a, b, c) a = b = c
+#  define FT_MULTI3(a, b, c) a = b = c
 # endif
 
-typedef struct 			s_sh
+typedef struct			s_sh
 {
-	char 				**env;
+	char				**env;
 	char				**imp_func;
 	char				**bin_directories;
 }						t_sh;
 
-int 					shell_cd(char **commands, t_sh *data);
-int						verif_access(char* path, char *file);
+int						shell_cd(char **commands, t_sh *data);
+int						verif_access(char *path, char *file);
 int						distrib_functions(char **commands, t_sh *data);
 
-char**					get_bin_directories(char **envp);
+char					**get_bin_directories(char **envp);
 int						shell_cmds(char *cmd, char **argv);
 char					**lsh_read_line(char *line);
 int						lsh_launch(char **args, t_sh *data);
