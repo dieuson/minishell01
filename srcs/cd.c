@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/07/28 17:18:36 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/08/31 14:14:54 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ static char *set_dir_dest(char **commands, char **env)
 		return (ft_strjoin(get_line("OLDPWD", env), commands[1] + 1));
 	else if (commands[1][0] == '~')
 		return (ft_strjoin(get_line("HOME", env), commands[1] + 1));
-	else if (commands[1][0] != '/')
-		dir_dest = ft_strjoin("/", commands[1]);
-	else
-		dir_dest = ft_strdup(commands[1]);
+	else if (commands[1][0] == '/')
+		return (ft_strdup(commands[1]));
+	dir_dest = ft_strjoin("/", commands[1]);
 	tmp = dir_dest;
 	current_path = getcwd(NULL, 1024);
 	dir_dest = ft_strjoin(current_path, dir_dest);
