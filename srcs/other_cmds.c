@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sgaudin <sgaudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/26 11:46:36 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/06 16:27:53 by sgaudin          ###   ########.fr       */
-/*   Updated: 2016/07/28 17:04:34 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/08/31 11:04:06 by sgaudin           #+#    #+#             */
+/*   Updated: 2016/08/31 11:04:07 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +71,12 @@ int		lsh_launch(char **args, t_sh *data)
 	FT_INIT(char*, cmd, NULL);
 	FT_INIT(char*, tmp, NULL);
 	FT_INIT(int, i, 0);
-	FT_INIT(char**, bin_directories, data->bin_directories);
-	if (!args || !bin_directories)
+	FT_INIT(char**, bin_directories, NULL);
+	if (!args || !data->bin_directories)
 		return (0);
 //	free_env(data->bin_directories);
 	data->bin_directories = get_bin_directories(data->env);
+	bin_directories = data->bin_directories;
 	while (bin_directories && bin_directories[i])
 	{
 		if (verif_access_others(bin_directories[i]))

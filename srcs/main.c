@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 11:40:17 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/06 15:46:09 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/08/31 10:49:13 by sgaudin          ###   ########.fr       */
 /*   Updated: 2016/07/28 17:18:26 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -46,7 +46,7 @@ int			prompt(t_sh *data)
 				if (pid == 0)
 				{
 					lsh_launch(commands, data);
-					exit(0);				
+					exit(0);
 				}
 			}
 			free_simple_tab(&commands);
