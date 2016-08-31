@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/31 14:14:54 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/08/31 14:55:41 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static char *set_dir_dest(char **commands, char **env)
 	current_path = getcwd(NULL, 1024);
 	dir_dest = ft_strjoin(current_path, dir_dest);
 	ft_strdel(&tmp);
+	free(current_path);
 	return (dir_dest);
 }
 
@@ -98,7 +99,10 @@ int shell_cd(char **commands, t_sh *data)
 		return (0);
 	dir_dest = set_dir_dest(commands, data->env);
 	if (!verif_access(dir_dest, commands[1]))
+	{
+		ft_strdel(&dir_dest);
 		return (0);
+	}
 	current_path = getcwd(NULL, 1024);
 	oldpwd = get_index("OLDPWD", data->env);
 	if (oldpwd >= 0)
@@ -108,6 +112,7 @@ int shell_cd(char **commands, t_sh *data)
 	}
 	chdir(dir_dest);
 	ft_strdel(&dir_dest);
+	free(current_path);
 	return (1);
 }
 
@@ -123,7 +128,7 @@ char **lsh_read_line(char *line)
 	else
 	{
 		commands = (char**)malloc(sizeof(char*) * 2);
-		commands[0] = line;
+		commands[0] = ft_strdup(line);
 		commands[1] = NULL;
 	}
 	return (commands);
