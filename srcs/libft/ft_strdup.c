@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 14:32:16 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/01/07 15:37:30 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/09/05 16:34:18 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char		*ft_strdup(const char *s)
 	char	*ret;
 	int		i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	if (!(ret = ft_strnew(ft_strlen(s))))
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: sgaudin <sgaudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/31 11:04:06 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/31 17:33:21 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/09/05 16:13:44 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	free_la_flemme(char **name, char **value)
+static int	free_namevalue(char **name, char **value)
 {
 	free((*name));
 	free((*value));
@@ -22,7 +22,7 @@ static int	free_la_flemme(char **name, char **value)
 int			env_format(char *var)
 {
 	FT_INIT(int, i, ft_strlen(var) - ft_strlen(ft_strchr(var, '=')));
-	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=') + 1));
+	FT_INIT(int, j, ft_strlen(ft_strchr(var, '=')) - 1);
 	if (ft_strchr(var, '=') == NULL)
 		return (0);
 	FT_INIT(char *, name, ft_strnew(i));
@@ -31,15 +31,15 @@ int			env_format(char *var)
 	ft_strcpy(value, ft_strchr(var, '=') + 1);
 	FT_MULTI3(i, j, 0);
 	if (ft_strchr(value, '='))
-		return (free_la_flemme(&name, &value));
+		return (free_namevalue(&name, &value));
 	while (name[i])
 	{
 		if (name[i] < 'A' || name[i] > 'Z')
 			if (name[i] != '_')
-				return (free_la_flemme(&name, &value));
+				return (free_namevalue(&name, &value));
 		i++;
 	}
-	free_la_flemme(&name, &value);
+	free_namevalue(&name, &value);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 16:32:43 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/09/05 15:23:45 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/09/05 16:26:18 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	var_exists(t_sh *data, char *var)
 static int	recup_var(t_sh *data, char *line, int i)
 {
 	FT_INIT(int, j, 0);
-	FT_INIT(char *, var, (char *)malloc(sizeof(char) * 200));
+	FT_INIT(char *, var, (char *)malloc(sizeof(char) * ft_strlen(line)));
 	i++;
 	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 	{
@@ -50,21 +50,21 @@ static int	recup_var(t_sh *data, char *line, int i)
 	return (var_exists(data, var) == 1 ? 1 : 0);
 }
 
-int			msh_echo_env(t_sh *data, char *line)
+int			msh_echo_env(t_sh *data, char *l)
 {
 	FT_INIT(int, i, 0);
 	FT_INIT(int, ret, 0);
-	while (line[i])
+	while (l[i])
 	{
-		if (i <= (int)ft_strlen(line) && line[i] == '$')
+		if (i <= (int)ft_strlen(l) && l[i] == '$')
 		{
-			ret = recup_var(data, line, i);
+			ret = recup_var(data, l, i);
 			if (ret == -1 || ret == 0)
 				return (0);
-			while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			while (l[i] && l[i] != ' ' && l[i] != '\t' && l[i] != '\n')
 				i++;
 		}
-		ft_putchar(line[i]);
+		ft_putchar(l[i]);
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/06 16:07:23 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/09/05 17:23:42 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ int			msh_env(t_sh *data)
 		return (1);
 	while (data->env[i])
 	{
-		ft_putchar('|');
-		ft_putstr(data->env[i]);
-		ft_putstr("|\n");
+		ft_putendl(data->env[i]);
 		i++;
 	}
 	return (0);
@@ -73,8 +71,6 @@ int			msh_setenv(t_sh *data, char *new_var)
 {
 	FT_INIT(int, i, 0);
 	FT_INIT(char **, tmp, NULL);
-	if (setenv_check(data, new_var))
-		return (0);
 	if (!env_format(new_var))
 	{
 		ft_putstr("Wrong env variable format.\n Should be the"
@@ -83,6 +79,8 @@ int			msh_setenv(t_sh *data, char *new_var)
 		" the value.");
 		return (1);
 	}
+	if (setenv_check(data, new_var))
+		return (0);
 	init_env(&tmp, data->env, new_var);
 	while (tmp[i])
 		i++;

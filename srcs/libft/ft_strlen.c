@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/26 10:29:54 by dvirgile          #+#    #+#             */
-/*   Updated: 2015/11/30 14:50:54 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/09/05 16:34:07 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	int nb;
 
 	nb = 0;
+	if (!s)
+		return (0);
 	while (s[nb])
 		nb++;
 	return (nb);

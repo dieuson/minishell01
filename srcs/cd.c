@@ -6,13 +6,13 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/09/05 10:52:08 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/09/05 17:28:56 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int error_cd(char *type, char *file)
+int			error_cd(char *type, char *file)
 {
 	ft_putstr("cd: ");
 	ft_putstr(type);
@@ -21,21 +21,7 @@ int error_cd(char *type, char *file)
 	return (0);
 }
 
-int		verif_access(char *path, char *file)
-{
-	struct stat infos;
-
-	lstat(path, &infos);
-	if (access(path, F_OK) != 0)
-		return (error_cd("no such file or directory", file));
-	else if (access(path, X_OK) != 0 || !S_ISDIR(infos.st_mode))
-		return (error_cd("permission denied", file));
-	else if (!S_ISDIR(infos.st_mode))
-		return (error_cd("not a directory", file));
-	return (1);
-}
-
-char 	*get_line(char *search, char **tab)
+char		*get_line(char *search, char **tab)
 {
 	FT_INIT(int, i, 0);
 	if (!tab || !search)
@@ -50,7 +36,7 @@ char 	*get_line(char *search, char **tab)
 	return (NULL);
 }
 
-int 	get_index(char *search, char **tab)
+int			get_index(char *search, char **tab)
 {
 	FT_INIT(int, i, 0);
 	if (!tab || !search)
@@ -65,7 +51,7 @@ int 	get_index(char *search, char **tab)
 	return (-1);
 }
 
-static char *set_dir_dest(char **commands, char **env)
+static char	*set_dir_dest(char **commands, char **env)
 {
 	FT_INIT(char*, dir_dest, NULL);
 	FT_INIT(char*, current_path, NULL);
@@ -90,11 +76,10 @@ static char *set_dir_dest(char **commands, char **env)
 	return (dir_dest);
 }
 
-int shell_cd(char **commands, t_sh *data)
+int			shell_cd(char **commands, t_sh *data)
 {
 	FT_INIT(char*, dir_dest, NULL);
-	FT_INIT(char*, current_path, NULL);
-	FT_INIT(int, oldpwd, 0);
+	FT_INIT(char*, dir, NULL);
 	if (!commands && data)
 		return (0);
 	dir_dest = set_dir_dest(commands, data->env);
@@ -103,33 +88,19 @@ int shell_cd(char **commands, t_sh *data)
 		ft_strdel(&dir_dest);
 		return (0);
 	}
-	current_path = getcwd(NULL, 1024);
-	oldpwd = get_index("OLDPWD", data->env);
-	if (oldpwd >= 0)
+	dir = getcwd(NULL, 1024);
+	if (get_index("OLDPWD", data->env) >= 0)
 	{
-		free(data->env[oldpwd]);
-		data->env[oldpwd] = ft_strjoin("OLDPWD=" ,current_path);
+		free(data->env[get_index("OLDPWD", data->env)]);
+		data->env[get_index("OLDPWD", data->env)] = ft_strjoin("OLDPWD=", dir);
+	}
+	if (get_index("PWD", data->env) >= 0)
+	{
+		free(data->env[get_index("PWD", data->env)]);
+		data->env[get_index("PWD", data->env)] = ft_strjoin("PWD=", dir_dest);
 	}
 	chdir(dir_dest);
 	ft_strdel(&dir_dest);
-	free(current_path);
+	free(dir);
 	return (1);
-}
-
-char **lsh_read_line(char *line)
-{
-	char **commands;
-
-	commands = NULL;
-	if (!line)
-		return (NULL);
-	if (ft_strchr(line, ' '))
-		commands = ft_strsplit(line, ' ');
-	else
-	{
-		commands = (char**)malloc(sizeof(char*) * 2);
-		commands[0] = ft_strdup(line);
-		commands[1] = NULL;
-	}
-	return (commands);
 }
