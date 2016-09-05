@@ -6,7 +6,7 @@
 /*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/26 11:29:38 by dvirgile          #+#    #+#             */
-/*   Updated: 2016/08/31 17:30:00 by dvirgile         ###   ########.fr       */
+/*   Updated: 2016/09/05 10:52:08 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,39 +116,6 @@ int shell_cd(char **commands, t_sh *data)
 	return (1);
 }
 
-char *extract_cote(char *line, char search)
-{
-	FT_INIT(char*, new_line, NULL);
-	FT_INIT(char*, tmp1, NULL);
-	FT_INIT(char*, tmp2, NULL);
-	FT_INIT(int, i, 0);
-	FT_INIT(int, e, 0);
-	FT_INIT(int, check, 0);
-
-	tmp1 = ft_strchr(line, search);
-	if (tmp1)
-		tmp2 = ft_strchr(tmp1 + 1,search);
-	if (tmp1 && tmp2)
-	{
-		ft_putendl("double cote");
-		new_line = ft_strnew(ft_strlen(line) - 2);
-		while (line && line[i])
-		{
-			if (line[i] != search || check >= 2)
-			{
-				new_line[e] = line[i];
-				e++;
-			}
-			else
-				check++;
-			i++;
-		}
-		new_line[e] = '\0';
-	}
-	ft_putendl(new_line);
-	return (new_line);
-}
-
 char **lsh_read_line(char *line)
 {
 	char **commands;
@@ -156,7 +123,6 @@ char **lsh_read_line(char *line)
 	commands = NULL;
 	if (!line)
 		return (NULL);
-	extract_cote(line, '\"');
 	if (ft_strchr(line, ' '))
 		commands = ft_strsplit(line, ' ');
 	else
