@@ -6,7 +6,7 @@
 /*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 16:32:43 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/08/19 16:53:10 by sgaudin          ###   ########.fr       */
+/*   Updated: 2016/09/05 15:23:45 by sgaudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int			msh_echo_env(t_sh *data, char *line)
 			ret = recup_var(data, line, i);
 			if (ret == -1 || ret == 0)
 				return (0);
-			while (line && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 				i++;
 		}
 		ft_putchar(line[i]);
