@@ -49,15 +49,20 @@ static t_file 		*create_cell(char *name, int dir)
 	return (new_cell);
 }
 
+
+
 t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path)
 {
 	struct dirent 	*fd;
 	struct stat		infos;
 
 	FT_INIT(t_file *, start, NULL);
-	lstat(path, &infos);
+	FT_INIT(char*, path_file, NULL);
 	while ((fd = readdir(rep)))
 	{
+		path_file = ft_strjoin(path, fd->d_name);
+		lstat(path_file, &infos);
+		ft_strdel(&path_file);
 		if (!files)
 			MULTI(start, files, create_cell(fd->d_name, 
 				S_ISDIR(infos.st_mode)));

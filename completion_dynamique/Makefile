@@ -38,9 +38,12 @@ $(NAME):
 	@make -C $(FT_PRINTF)
 	@make -C $(LIBFT)
 	@printf "\033[31mCompilation $(NAME):\033[0m"
-	@$(CC) $(FLAGS) $(INCLUDES) -ltermcap -Incurses  $(SRCS) -c
-	@$(CC) $(FLAGS) $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
+#	@$(CC) $(FLAGS) $(INCLUDES) -ltermcap -Incurses  $(SRCS) -c 			LINUX
+#	@$(CC) $(FLAGS) $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
 	 -ltermcap -Incurses  -o $(NAME)
+	@$(CC) $(FLAGS) $(INCLUDES) $(SRCS) -c
+	@$(CC) $(FLAGS) -ltermcap -lncurses $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
+	 -o $(NAME)
 	@mkdir bin_folder
 	@mv $(BIN) ./bin_folder
 	@printf "\033[32m done!\n\033[0m"

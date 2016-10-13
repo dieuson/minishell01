@@ -38,7 +38,7 @@ int			call_purcent(const char *str, va_list args, t_docker *data)
 
 	argument = data->type;
 	if (args)
-		args = args;
+		argument = data->type;
 	if (data->width >= 1 && data->less == 0)
 		data->len = ftp_purcent(data, argument, data->len, 3);
 	else if (data->less == 1 && str)

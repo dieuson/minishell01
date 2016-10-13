@@ -12,6 +12,43 @@ static char		*set_sentence(char *str, int len_str, char *name)
 	return (str);
 }
 
+/*
+printf("\033[XA"); // Move up X lines;
+printf("\033[XB"); // Move down X lines;
+printf("\033[XC"); // Move right X column;
+printf("\033[XD"); // Move left X column;
+printf("\033[2J"); // Clear screen
+printf("\033[8;5Hhello"); // Move to (8, 5) and output hello
+*/
+
+void 			reset_cursor_pos(int len_str, int nb_colonnes, int nb_elem, char *sentence)
+{
+	FT_INIT(int, nb_col, 0);
+	FT_INIT(int, nb_line, 0);
+	FT_INIT(int, Pnb_col, 0);
+	FT_INIT(int, Pnb_line, 0);
+	if (!nb_elem)
+		return ;
+	ft_putstr("\033[32m|\033[0m");
+	nb_colonnes = nb_elem <= nb_colonnes ? nb_elem : nb_colonnes;
+	nb_col = (len_str + 2) * nb_colonnes + 1 - ft_strlen(sentence);
+	nb_line = nb_elem / nb_colonnes + 1;
+	Pnb_col = nb_col;
+	Pnb_line = nb_line;
+	while (nb_col)
+	{
+		ft_printf("\033[1D");
+		nb_col--;
+	}
+	while (nb_line)
+	{
+	//	ft_printf("\033[1A");
+		nb_line--;
+	}
+	ft_putstr("\033[31m|\033[0m");
+	ft_printf("\nnb_col =%d, nb_line =%d,\n", Pnb_col, Pnb_line);
+}
+
 void 			display_form(t_completion *all_col, int nb_elem, int len_str, int nb_col)
 {
 	FT_INIT(t_file *, col, all_col->elem);
@@ -58,9 +95,10 @@ void 			display_completion(char **sentence, t_file *match_files)
 	FT_INIT(int, nb_col, ws.ws_col / (len_str + 2));
 	FT_INIT(int, nb_line, ws.ws_row);
 	FT_INIT(int, nb_elem_lst, nb_elem / nb_col);
-//	printf("nb_elem =%d, len_str_max =%d, nb_col =%d, nb_line =%d, nb_elem_lst =%d\n", nb_elem, len_str, nb_col, nb_line, nb_elem_lst);
 	lst_lst = build_lst_lst(match_files, (nb_elem_lst == 0 ? 1 : nb_elem_lst), nb_col);
-//	display_form(lst_lst, nb_elem, len_str, nb_col);
+	display_form(lst_lst, nb_elem, len_str, nb_col);
+	reset_cursor_pos(len_str, nb_col, nb_elem, *sentence);
+	printf("nb_elem =%d, len_str_max =%d, nb_col =%d, nb_line =%d, nb_elem_lst =%d\n", nb_elem, len_str, nb_col, nb_line, nb_elem_lst);
 	if (nb_elem || len_str || nb_col || nb_line || nb_elem_lst || lst_lst)
 		return ;
 }

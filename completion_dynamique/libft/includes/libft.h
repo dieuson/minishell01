@@ -33,6 +33,7 @@ void				free_tab(char ****tab);
 char				**new_simple_tab(char ***tab);
 char				***new_tab(char ****tab);
 
+void				ft_putcolor(char *str, char *color);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
 void				*ft_memcpy(void *dst, const void *src, size_t n);

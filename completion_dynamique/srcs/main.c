@@ -79,22 +79,26 @@ int main()
 		{
 			tcsetattr(STDIN_FILENO, TCSANOW, init_term);
 		    val = *line;
-		    ft_putstr(line);
 			tmp = inputs;
 			inputs = ft_strjoin(tmp, line);
 			if (val == 9)
 			{
 //				ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-				intput = detect_auto_comletion(tmp);
-				if (ft_strlen(inputs) > 0)
-					ft_strdel(&inputs);	
-				ft_strdel(&tmp);	
+				detect_auto_comletion(tmp);
+				if (tmp && ft_strlen(tmp))
+					ft_strdel(&tmp);	
 			}
-
-			if (ft_strstr(inputs, "exit") && tmp)
+			else
+			    ft_putstr(line);
+			if (inputs && tmp && ft_strstr(inputs, "exit"))
 				break;
-			if (ft_strstr(inputs, "echap"))
+			if (inputs && ft_strstr(inputs, "echap"))
 				break;
+			if (val == 9 && inputs && ft_strlen(inputs))
+			{
+				ft_strdel(&inputs);	
+				inputs = "";
+			}
 			val = 0;
 //			printf("inputs =%s, val =%d\n", inputs, val);
 			tcsetattr(STDIN_FILENO, TCSANOW, termios_p);
