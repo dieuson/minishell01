@@ -12,7 +12,6 @@
 
 #include "../includes/ft_select.h"
 
-
 int			ft_get_termattr(struct termios **term)
 {
 	int		ret;
@@ -33,66 +32,77 @@ int			ft_set_termattr(struct termios **term)
 	return (ret);
 }
 
+int my_outc(int c)
+{
+	ft_putchar(c);
+	return (0);
+}
+
+
+
 int main()
 {
 	struct termios *termios_p;
 	struct termios *init_term;
 	char            *term_name;
+ //   struct winsize w;
 
 	term_name = NULL;
-	FT_INIT(int, ret, 0);
-	FT_INIT(int, init_fd, 0);
-	FT_INIT(char*, line, NULL);
-	FT_INIT(char*, tmp, "");
+	FT_INIT(int, val, 0);
+	FT_INIT(char*, line, ft_strnew(16));
+	FT_INIT(char*, inputs, "");
+	FT_INIT(char*, tmp, NULL);
 
     if ((term_name = getenv("TERM")) == NULL)
         return (1);
-    if (tgetent(NULL, term_name) == ERR)
-        return (1);
 
  	ft_putstr("Minishell ready\n");
+ 	ft_putendl(term_name);
 	termios_p = (struct termios *)malloc(sizeof(struct termios));
 	init_term = (struct termios *)malloc(sizeof(struct termios));
 
-	init_fd = ft_get_termattr(&init_term);
+	ft_get_termattr(&init_term);
 
 	termios_p->c_lflag &= ~(ICANON); // Mode canonique
 	termios_p->c_lflag &= ~(ECHO); // Effectuer un écho des caractères saisis. Si ICANON est également activé, la touche ERASE efface le caractère précédent, et WERASE efface le mot précédent.
 	termios_p->c_lflag &= ~(ISIG); // Lorsqu'un caractère INTR, QUIT, SUSP ou DSUSP arrive, engendrer le signal correspondant.
-//	termios_p->c_cc[VMIN] = 1;
-//	termios_p->c_cc[VTIME] = 0;
+	termios_p->c_cc[VMIN] = 1;
+	termios_p->c_cc[VTIME] = 0;
 
-
+    if (tgetent(NULL, term_name) == ERR)
+        return (1);
 
  	tcsetattr(STDIN_FILENO, TCSANOW, termios_p);
-//	ft_set_termattr(&termios_p);
-
 	while (1)
 	{
-		ret = get_next_line(0, &line);
-//		if (!ft_strcmp(line, "exit"))
-//			return(ft_set_termattr(&init_term));
-		if (ft_strstr(tmp, "exit"))
+		if (read(STDIN_FILENO, line, 16) > 0)
 		{
-			ft_set_termattr(&init_term);
-			exit(0);
-		}
-		if (ret && ft_strlen(line))
-		{
-			if (!ft_strcmp(line, "^["))
+			tcsetattr(STDIN_FILENO, TCSANOW, init_term);
+		    val = *line;
+		    ft_putstr(line);
+			tmp = inputs;
+			inputs = ft_strjoin(tmp, line);
+			if (val == 9)
 			{
-					ft_putstr("ECHAP\n");
-					ft_set_termattr(&init_term);
-					exit(0);
+//				ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+				intput = detect_auto_comletion(tmp);
+				if (ft_strlen(inputs) > 0)
+					ft_strdel(&inputs);	
+				ft_strdel(&tmp);	
 			}
-			if (!ft_strcmp(line, "\t"))
-				ft_putstr("tabulation\n");
-//			ft_strdel(&line);
-			ret = 0;
-			tmp = ft_strjoin(tmp, line);
-			ft_putendl(tmp);
+
+			if (ft_strstr(inputs, "exit") && tmp)
+				break;
+			if (ft_strstr(inputs, "echap"))
+				break;
+			val = 0;
+//			printf("inputs =%s, val =%d\n", inputs, val);
+			tcsetattr(STDIN_FILENO, TCSANOW, termios_p);
 		}
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, init_term);
+	if (line && ft_strlen(line))
+		ft_strdel(&line);
 //	ft_set_termattr(&init_term);
 	return (0);
 }

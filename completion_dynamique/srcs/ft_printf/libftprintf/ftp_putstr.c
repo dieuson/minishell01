@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ftp_putstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgaudin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: dvirgile <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/04 10:22:16 by sgaudin           #+#    #+#             */
-/*   Updated: 2016/09/27 15:14:35 by dvirgile         ###   ########.fr       */
+/*   Created: 2016/03/12 19:25:36 by dvirgile          #+#    #+#             */
+/*   Updated: 2016/03/12 19:25:36 by dvirgile         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libftprintf.h"
 
-# include "../../libft/includes/libft.h"
-# define BUFF_SIZE 80
-
-int		get_next_line(int const fd, char **line);
-
-#endif
+int		ftp_putstr(uint8_t *str)
+{
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	write(1, str, ftp_strlen(str));
+	return (ftp_strlen(str));
+}

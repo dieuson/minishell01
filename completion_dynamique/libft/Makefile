@@ -26,7 +26,7 @@ ft_capitalize.c ft_printbase.c ft_printhex.c ft_strtolower.c ft_strtoupper.c \
 ft_abs.c ft_print_list.c ft_lstadd_bottom.c ft_itoabase.c \
 ft_atoibase.c ft_recursive_pow.c ft_putwstr.c build_simple_tab.c build_tab.c \
 
-BINARY = $(SRC:.c=.o)
+BINARY = $(SRC:.c=.o) 
 
 all: $(NAME)
 

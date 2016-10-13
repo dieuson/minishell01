@@ -13,13 +13,42 @@
 #ifndef		FT_SELECT_H
 
 # define	FT_SELECT_H
-# include "../srcs/get_next_line/get_next_line.h"
+# include "../srcs/ft_printf/includes/ft_printf.h"
 # include "../libft/includes/libft.h"
-# include <stdio.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 # include <curses.h>
 # include <term.h>
-# include <termios.h>
-# include <unctrl.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <dirent.h>
 
+
+typedef struct				s_file
+{
+	char					*name;
+	int 					type;
+	int 					len;
+	int 					nb_elem;
+	struct s_file			*next;
+}							t_file;
+
+typedef struct				s_completion
+{
+	struct s_file 			*elem;
+	struct s_completion		*next;
+}							t_completion;
+
+typedef struct				s_shell
+{
+	char					*buf;
+}							t_shell;
+
+char						*detect_auto_comletion(char *sentence);
+t_file 						*store_files_dirs(DIR *rep, t_file *files, char *path);
+t_file 						*compare_list_sentence(t_file *files, char *sentence);
+char 						*set_path(char *sentence, char *home, char *current_path);
+void 						display_completion(char **sentence, t_file *match_files);
+t_completion 				*build_lst_lst(t_file *match_files, int nb_elem, int nb_col);
 
 #endif

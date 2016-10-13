@@ -24,8 +24,8 @@
 #  define FT_INIT(t, n, v) t n = v
 # endif
 
-# ifndef FT_MULTI3
-#  define FT_MULTI3(a, b, c) a = b = c
+# ifndef MULTI
+#  define MULTI(a, b, c) a = b = c
 # endif
 
 void				free_simple_tab(char ***tab);
