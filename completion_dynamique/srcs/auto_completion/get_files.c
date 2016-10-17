@@ -11,7 +11,7 @@ static int 			compare(char *str1, char *str2)
 	return (diff);
 }
 
-static t_file		*sort_list(t_file *files)
+t_file		*sort_list(t_file *files)
 {
 	FT_INIT(t_file*, after, files);
 	FT_INIT(t_file*, before, files);
@@ -36,7 +36,7 @@ static t_file		*sort_list(t_file *files)
 	return (files);
 }
 
-static t_file 		*create_cell(char *name, int dir)
+static t_file 		*create_cell(char *name, int dir, char *path_file)
 {
 	t_file 			*new_cell;
 
@@ -46,33 +46,52 @@ static t_file 		*create_cell(char *name, int dir)
 	new_cell->len = ft_strlen(new_cell->name);
 	new_cell->next = NULL;
 	new_cell->nb_elem = 0;
+	new_cell->absolute_path = ft_strdup(path_file);
 	return (new_cell);
 }
 
+int 				verif_file_match(char *to_search, char *file)
+{
+	if (!to_search || !file)
+		return (0);
+	if (ft_strlen(to_search) <= ft_strlen(file) &&
+	 !ft_strncmp(file, to_search, ft_strlen(to_search)))
+		return (1);
+	else
+		return (0);
+}
 
-
-t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path)
+t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_search)
 {
 	struct dirent 	*fd;
 	struct stat		infos;
 
 	FT_INIT(t_file *, start, NULL);
 	FT_INIT(char*, path_file, NULL);
+	FT_INIT(char*, tmp, NULL);
 	while ((fd = readdir(rep)))
 	{
-		path_file = ft_strjoin(path, fd->d_name);
-		lstat(path_file, &infos);
-		ft_strdel(&path_file);
-		if (!files)
-			MULTI(start, files, create_cell(fd->d_name, 
-				S_ISDIR(infos.st_mode)));
-		else
+		tmp = ft_strjoin(path, "/");
+		path_file = ft_strjoin(tmp, fd->d_name);
+		ft_strdel(&tmp);
+		if (!lstat(path_file, &infos) && verif_file_match(to_search, fd->d_name))
 		{
-			files->next = create_cell(fd->d_name, S_ISDIR(infos.st_mode));
-			files = files->next;
+			//ft_printf("path_file =%s, name file =%s,\n",path_file, fd->d_name);
+			if (!files)
+				MULTI(start, files, create_cell(fd->d_name, 
+					S_ISDIR(infos.st_mode), path_file));
+			else
+			{
+				files->next = create_cell(fd->d_name, S_ISDIR(infos.st_mode)
+					, path_file);
+				files = files->next;
+			}
 		}
+		ft_strdel(&path_file);
 	}
 	closedir(rep);
+//	ft_printf("START SORT LIST\n");
 	files = sort_list(start);
+//	ft_printf("END SORT LIST\n");
 	return (files);
 }

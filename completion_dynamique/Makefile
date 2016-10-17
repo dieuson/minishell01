@@ -23,12 +23,14 @@ FLAGS = -Wall -Wextra -Werror
 CC = gcc
 
 FILES = main.c init_file_list.c detect_auto_completion.c get_files.c \
-		match_elements.c set_path.c display_completion.c build_list.c
+		match_elements.c set_path.c display_completion.c build_list.c \
+		set_sentence.c
 
 SRCS = $(DIR_SRCS)main.c $(DIR_SRCS)init_file_list.c \
 		$(DIR_AUTO)detect_auto_completion.c $(DIR_AUTO)get_files.c \
 		$(DIR_AUTO)match_elements.c $(DIR_AUTO)set_path.c \
-		$(DIR_AUTO)display_completion.c $(DIR_AUTO)build_list.c
+		$(DIR_AUTO)display_completion.c $(DIR_AUTO)build_list.c \
+		$(DIR_AUTO)set_sentence.c
 BIN = $(FILES:.c=.o)
 TILDE = $(SRC:.c=.c~) Makefile~
 
@@ -38,12 +40,12 @@ $(NAME):
 	@make -C $(FT_PRINTF)
 	@make -C $(LIBFT)
 	@printf "\033[31mCompilation $(NAME):\033[0m"
-#	@$(CC) $(FLAGS) $(INCLUDES) -ltermcap -Incurses  $(SRCS) -c 			LINUX
-#	@$(CC) $(FLAGS) $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
+	@$(CC) $(FLAGS) $(INCLUDES) -ltermcap -Incurses  $(SRCS) -c 			
+	@$(CC) $(FLAGS) $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
 	 -ltermcap -Incurses  -o $(NAME)
-	@$(CC) $(FLAGS) $(INCLUDES) $(SRCS) -c
-	@$(CC) $(FLAGS) -ltermcap -lncurses $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
-	 -o $(NAME)
+#	@$(CC) $(FLAGS) $(INCLUDES) $(SRCS) -c
+#	@$(CC) $(FLAGS) -ltermcap -lncurses $(BIN) $(FT_PRINTF)libftprintf.a $(LIBFT)libft.a \
+#	 -o $(NAME)
 	@mkdir bin_folder
 	@mv $(BIN) ./bin_folder
 	@printf "\033[32m done!\n\033[0m"

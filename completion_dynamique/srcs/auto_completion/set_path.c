@@ -15,7 +15,8 @@ static char		*set_begining(char *sentence, char *home, char *current_path)
 	}
 	else if (!ft_strcmp(sentence, ".."))
 	{
-		ft_strncpy(new_path, current_path, ft_strlen(current_path) - ft_strlen(ft_strrchr(current_path, '/')));
+		ft_strncpy(new_path, current_path, ft_strlen(current_path) - 
+			ft_strlen(ft_strrchr(current_path, '/')));
 		ft_strcat(new_path, "/");	
 	}
 	else
@@ -78,11 +79,11 @@ static char 	*set_end_path(char *new_path)
 		return (new_path);
 	first_str = ft_strsub(new_path, 0, ft_strlen(new_path) - 
 		(ft_strlen(ft_strrchr(new_path, '/'))));
-	ft_strdel(&new_path);
 	if (lstat(second_str, &infos) == 0)
 	{
 		ft_strdel(&first_str);
-		ft_strdel(&new_path);
+		if (S_ISDIR(infos.st_mode) && second_str[ft_strlen(second_str)] != '/')
+			second_str = ft_strjoin(second_str, "/");
 		return (second_str);	
 	}
 	if (lstat(first_str, &infos) == -1)
@@ -93,7 +94,7 @@ static char 	*set_end_path(char *new_path)
 	}
 	else
 		ft_strdel(&new_path);
-	if (S_ISDIR(infos.st_mode))
+	if (!lstat(first_str, &infos) && S_ISDIR(infos.st_mode))
 		first_str = ft_strjoin(first_str, "/");
 	return (first_str);
 }
@@ -103,6 +104,10 @@ char 			*set_path(char *sentence, char *home, char *current_path)
 	FT_INIT(char*, new_path, NULL);
 	FT_INIT(char**, dirs, NULL);
 	FT_INIT(int, i, 0);
+	if (!home)
+		home = "";
+	if (!current_path)
+		current_path = "";
 	new_path = set_begining(sentence, home, sentence[0] == '/' ? ""
 		: current_path);
 	sentence = ft_strdup(new_path);
