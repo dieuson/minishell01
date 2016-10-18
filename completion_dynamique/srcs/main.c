@@ -49,7 +49,7 @@ int main()
 
 	term_name = NULL;
 	FT_INIT(int, val, 0);
-	FT_INIT(char*, line, ft_strnew(16));
+	FT_INIT(char*, line, ft_strnew(8));
 	FT_INIT(char*, inputs, "");
 	FT_INIT(char*, tmp, NULL);
 
@@ -59,7 +59,7 @@ int main()
  	ft_putstr("Minishell ready\n");
  	ft_putendl(term_name);
 	termios_p = (struct termios *)malloc(sizeof(struct termios));
-	init_term = (struct termios *)malloc(sizeof(struct termios));
+//	init_term = (struct termios *)malloc(sizeof(struct termios));
 
 	ft_get_termattr(&init_term);
 
@@ -80,17 +80,13 @@ int main()
 			tcsetattr(STDIN_FILENO, TCSANOW, init_term);
 		    val = *line;
 			if (val == 9)
-			{
-	//			ft_printf("Before_inputs =%s,\n", inputs);
 				inputs = detect_auto_comletion(inputs);
-	//			ft_printf("\nAfter_inputs =%s,\n\n", inputs);
-	//			if (tmp && ft_strlen(tmp))
-	//				ft_strdel(&tmp);	
-			}
 			else
 			{
 				tmp = inputs;
-				inputs = ft_strjoin(tmp, line);				
+				inputs = ft_strjoin(tmp, line);
+				if (tmp && ft_strlen(tmp))
+					ft_strdel(&tmp);
 			    ft_putstr(line);
 			}
 			if (inputs && ft_strstr(inputs, "exit"))
@@ -98,7 +94,6 @@ int main()
 			if (inputs && ft_strstr(inputs, "echap"))
 				break;
 			val = 0;
-//			printf("inputs =%s, val =%d\n", inputs, val);
 			tcsetattr(STDIN_FILENO, TCSANOW, termios_p);
 		}
 	}

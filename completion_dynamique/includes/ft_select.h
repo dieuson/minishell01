@@ -51,7 +51,7 @@ char 						*default_sentence(char *sentence);
 char						*detect_auto_comletion(char *sentence);
 t_file 						*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_search);
 t_file 						*compare_list_sentence(t_file *files, char *sentence);
-char 						*set_path(char *sentence, char *home, char *current_path);
+char 						*set_path(char **sentence, char *home, char *current_path);
 void 						display_completion(char *sentence, t_file *match_files);
 t_completion 				*build_lst_lst(t_file *match_files, int nb_elem, int nb_col);
 char 						*similarity(t_file *match_files, char *sentence);

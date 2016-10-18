@@ -3,6 +3,8 @@
 static char		*str_to_search(char *sentence)
 {
 	FT_INIT(char*, new_sentence, NULL);
+	if (ft_strchr(sentence, ' '))
+		sentence = ft_strrchr(sentence, ' ') + 1;
 	if (ft_strrchr(sentence, '/'))
 	{
 		new_sentence = ft_strrchr(sentence, '/') + 1;
@@ -26,10 +28,7 @@ static t_file 			*get_file_path(char *path, char *sentence)
 	rep  = opendir(path);
 	if (rep && !ft_strchr(sentence, ' ') && sentence[0] != '/' && 
 		getenv("PATH"))
-	{
-//		ft_printf("get_file_path bin file\n");
 		files = store_files_dirs(rep, files, path, str_to_search(sentence));
-	}
 	else if (rep && path && sentence[ft_strlen(sentence)] != ' ')
 		files = store_files_dirs(rep, files, path, str_to_search(sentence));
 	else
@@ -51,80 +50,97 @@ int 			len_tab(char **tab_m)
 	return (i);
 }
 
-t_file 			*files_list(char *sentence)
+t_file 			*files_list(char **sentence)
 {
 	FT_INIT(char**, path, NULL);
 	FT_INIT(t_file*, files, NULL);
 	FT_INIT(t_file*, head, NULL);
-	FT_INIT(char *, tmp, sentence);
-	sentence = default_sentence(sentence);
-	if (!ft_strchr(sentence, ' ') && sentence[0] != '/' && getenv("PATH"))
-	{
-//		ft_printf("bin file\n");		
+	*sentence = default_sentence(*sentence);
+	if (!ft_strchr(*sentence, ' ') && *sentence[0] != '/' && getenv("PATH"))
 		path = ft_strsplit(getenv("PATH"), ':');
-	}
 	else
 	{
-//		ft_printf("simple file\n");
-		tmp = ft_strrchr(sentence, ' ') + 1;
-		path = ft_strsplit(set_path(tmp, getenv("HOME"), getenv("PWD")), '\n');
+		*sentence += ft_strlen(ft_strrchr(*sentence, ' ')) + 1;
+		path = ft_strsplit(set_path(sentence, 
+			getenv("HOME"), getenv("PWD")), '\n');
 	}
-	if (ft_strrchr(sentence, ' '))
-		sentence = ft_strrchr(sentence, ' ');
-//	ft_printf("tmp =%s,\n", tmp);
-//	ft_printf("sentence =%s,\n", sentence);
+	ft_printf("path =%s,\n", path[0]);
 	while (path && *path)
 	{
-//		ft_printf("path =%s,\n", path[0]);
 		if (!files)
-			files = get_file_path(*path, sentence);
+			MULTI(head, files, get_file_path(*path, *sentence));
 		else
-			files->next = get_file_path(*path, sentence);
-		if (!head)
-			head = files;
-		while (files->next)
-		{
-//			ft_printf("file_name =%s,\n", files->name);
+			files->next = get_file_path(*path, *sentence);
+		while (files && files->next)
 			files = files->next;
-		}
 		path++;
 	}
-	files->next = NULL;
 	head = sort_list(head);
-//	while (head)
-//	{
-//		ft_printf("file_name =%s,\n", head->name);
-//		head = head->next;
-//	}
-
-//	free(path);
 	return (head);
 }
 
+{
+	char					*name;
+	int 					type;
+	int 					len;
+	char 					*absolute_path;
+	int 					nb_elem;
+	struct s_file			*next;
+
+
+void 			free_lists(t_file *match_files)
+{
+	FT_INIT(t_file*, col, NULL);
+	FT_INIT(t_file*, tmp, NULL);
+	
+	if (!match_files)
+		return ;
+	while(match_files)
+	{
+		col = match_files->elem;
+		while(col)
+		{
+			ft_strdel(&(col->name));
+			ft_strdel(&(col->absolute_path));
+			tmp = col;
+			col = col->next;
+			free(tmp);
+		}
+	}
+}
 
 char			*detect_auto_comletion(char *sentence)
 {
 	FT_INIT(t_file*, files, NULL);
 	FT_INIT(t_file*, match_files, NULL);
 	FT_INIT(char*, new_sentence, NULL);
+	FT_INIT(char*, start_sentence, ft_strdup(sentence));
 	FT_INIT(char*, to_search, NULL);
 	if (!sentence || !ft_strlen(sentence))
 	{
 		ft_printf("Error sentence :exist? :%s, sentence_len =%d\n", sentence, ft_strlen(sentence));
 		return (sentence);
 	}
-	files = files_list(sentence);
-/*	while (files)
-	{
-		ft_putendl(files->name);
-		files = files->next;
-	}*/
+	files = files_list(&sentence);
+	ft_putstr("test1\n");
 	to_search = str_to_search(sentence);
+	ft_putstr("test2\n");
+	ft_printf("to_search =%s, sentence =%s,\n", to_search, start_sentence);
 	if ((match_files =  compare_list_sentence(files, to_search)) != NULL)
 		new_sentence = similarity(match_files, to_search);
+	ft_putstr("test3\n");
 	if (new_sentence && ft_strlen(new_sentence))
-		return (ft_strjoin(sentence, new_sentence));
-	display_completion(sentence, match_files);
-	return ("");
-	return (sentence);
+	{
+		ft_printf("sentence =%s,\n", sentence);	
+		ft_strdel(&sentence);
+		free_lists(match_files);
+		return (ft_strjoin(start_sentence, new_sentence));
+	}
+	free_lists(match_files);
+	ft_putstr("test4\n");
+//	return ("");
+//	display_completion(sentence, match_files);
+//	ft_strdel(&sentence);
+	ft_putstr("test5\n");
+	return (start_sentence);
 }

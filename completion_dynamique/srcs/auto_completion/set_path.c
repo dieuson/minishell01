@@ -69,7 +69,7 @@ static char 	*parse_dirs(char **dirs, char *new_path, char *home)
 	return (new_path);
 }
 
-static char 	*set_end_path(char *new_path)
+static char 	*set_end_path(char *new_path, char **sentence)
 {
 	struct stat		infos;
 	
@@ -84,7 +84,9 @@ static char 	*set_end_path(char *new_path)
 		ft_strdel(&first_str);
 		if (S_ISDIR(infos.st_mode) && second_str[ft_strlen(second_str)] != '/')
 			second_str = ft_strjoin(second_str, "/");
-		return (second_str);	
+		*sentence = "";
+		ft_printf("SET END PATH second_str\n");
+		return (second_str);
 	}
 	if (lstat(first_str, &infos) == -1)
 	{
@@ -99,7 +101,7 @@ static char 	*set_end_path(char *new_path)
 	return (first_str);
 }
 
-char 			*set_path(char *sentence, char *home, char *current_path)
+char 			*set_path(char **sentence, char *home, char *current_path)
 {
 	FT_INIT(char*, new_path, NULL);
 	FT_INIT(char**, dirs, NULL);
@@ -108,11 +110,11 @@ char 			*set_path(char *sentence, char *home, char *current_path)
 		home = "";
 	if (!current_path)
 		current_path = "";
-	new_path = set_begining(sentence, home, sentence[0] == '/' ? ""
+	new_path = set_begining(*sentence, home, *sentence[0] == '/' ? ""
 		: current_path);
-	sentence = ft_strdup(new_path);
+//	sentence = ft_strdup(new_path);
+	dirs = ft_strsplit(new_path, '/');
 	ft_bzero((void*)new_path, ft_strlen(new_path));
-	dirs = ft_strsplit(sentence, '/');
 	ft_strcat(new_path, "/");
 	new_path = parse_dirs(dirs, new_path, home);
 	while (dirs && dirs[i])
@@ -121,6 +123,6 @@ char 			*set_path(char *sentence, char *home, char *current_path)
 		i++;
 	}
 	free(dirs);
-	new_path = set_end_path(new_path);
+	new_path = set_end_path(new_path, sentence);
 	return (new_path);
 }

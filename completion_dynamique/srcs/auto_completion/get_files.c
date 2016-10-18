@@ -44,9 +44,9 @@ static t_file 		*create_cell(char *name, int dir, char *path_file)
 	new_cell->name = ft_strdup(name);
 	new_cell->type = dir ? 1 : 0;
 	new_cell->len = ft_strlen(new_cell->name);
-	new_cell->next = NULL;
 	new_cell->nb_elem = 0;
 	new_cell->absolute_path = ft_strdup(path_file);
+	new_cell->next = NULL;
 	return (new_cell);
 }
 
@@ -76,22 +76,27 @@ t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_searc
 		ft_strdel(&tmp);
 		if (!lstat(path_file, &infos) && verif_file_match(to_search, fd->d_name))
 		{
-			//ft_printf("path_file =%s, name file =%s,\n",path_file, fd->d_name);
+			if (!ft_strcmp(fd->d_name, "lwp-request5.18"))
+				ft_printf("got it %s,\n", fd->d_name);
+//			ft_printf("path_file =%s, name file =%s,\n",path_file, fd->d_name);
+//			i++;
 			if (!files)
-				MULTI(start, files, create_cell(fd->d_name, 
-					S_ISDIR(infos.st_mode), path_file));
+				MULTI(start, files, create_cell(fd->d_name, S_ISDIR(infos.st_mode), path_file));
 			else
 			{
 				files->next = create_cell(fd->d_name, S_ISDIR(infos.st_mode)
 					, path_file);
 				files = files->next;
 			}
+			if (!ft_strcmp(files->name, "lwp-request5.18"))
+				ft_printf("FILES got it %s,\n", files->name);
 		}
 		ft_strdel(&path_file);
 	}
 	closedir(rep);
+	files = start;
 //	ft_printf("START SORT LIST\n");
-	files = sort_list(start);
+//	files = sort_list(start);
 //	ft_printf("END SORT LIST\n");
 	return (files);
 }
