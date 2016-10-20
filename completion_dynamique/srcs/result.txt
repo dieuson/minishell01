@@ -1,0 +1,8 @@
+l lib
+l lib
+l libft/
+l libft/
+l libft/ft_
+l libft/ft_mem
+l /
+l /initrd.img

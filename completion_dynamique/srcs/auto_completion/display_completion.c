@@ -73,6 +73,7 @@ int 			arrondi(float val)
 		return (val2 + 1);
 	return (val);
 }
+
 void 			display_completion(char *sentence, t_file *match_files)
 {
 	struct winsize ws;

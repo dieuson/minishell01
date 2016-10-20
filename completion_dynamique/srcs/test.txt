@@ -1,0 +1,8 @@
+l l
+l lib
+l libf
+l libft/
+l libft/f
+l libft/ft_m
+l /
+l /i

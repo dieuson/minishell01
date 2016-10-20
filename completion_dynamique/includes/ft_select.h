@@ -13,8 +13,9 @@
 #ifndef		FT_SELECT_H
 
 # define	FT_SELECT_H
-# include "../srcs/ft_printf/includes/ft_printf.h"
 # include "../libft/includes/libft.h"
+# include "../srcs/ft_printf/includes/ft_printf.h"
+# include "../srcs/get_next_line/get_next_line.h"
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <curses.h>
@@ -46,12 +47,14 @@ typedef struct				s_shell
 }							t_shell;
 
 
+void 						free_lists(t_file *match_files);
+void						free_auto_tab(char **table);
 t_file						*sort_list(t_file *files);
 char 						*default_sentence(char *sentence);
 char						*detect_auto_comletion(char *sentence);
 t_file 						*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_search);
 t_file 						*compare_list_sentence(t_file *files, char *sentence);
-char 						*set_path(char **sentence, char *home, char *current_path);
+char 						**set_path(char **sentence, char *home, char *current_path);
 void 						display_completion(char *sentence, t_file *match_files);
 t_completion 				*build_lst_lst(t_file *match_files, int nb_elem, int nb_col);
 char 						*similarity(t_file *match_files, char *sentence);

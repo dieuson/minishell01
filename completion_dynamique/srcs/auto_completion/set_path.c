@@ -101,15 +101,23 @@ static char 	*set_end_path(char *new_path, char **sentence)
 	return (first_str);
 }
 
-char 			*set_path(char **sentence, char *home, char *current_path)
+char 			**set_path(char **sentence, char *home, char *current_path)
 {
 	FT_INIT(char*, new_path, NULL);
 	FT_INIT(char**, dirs, NULL);
-	FT_INIT(int, i, 0);
-	if (!home)
-		home = "";
-	if (!current_path)
-		current_path = "";
+	FT_INIT(char*, tmp, NULL);
+	home = !home ? "" : home;
+	current_path = !current_path ? "" : current_path;
+
+	if (!ft_strchr(*sentence, ' ') && *sentence[0] != '/' && ft_strlen(current_path))
+		return (ft_strsplit(getenv("PATH"), ':'));
+	else
+	{
+		tmp = ft_strdup(ft_strrchr(*sentence, ' ') + 1);
+		ft_strdel(sentence);
+		*sentence = tmp ? tmp : *sentence;
+	}
+
 	new_path = set_begining(*sentence, home, *sentence[0] == '/' ? ""
 		: current_path);
 //	sentence = ft_strdup(new_path);
@@ -117,12 +125,10 @@ char 			*set_path(char **sentence, char *home, char *current_path)
 	ft_bzero((void*)new_path, ft_strlen(new_path));
 	ft_strcat(new_path, "/");
 	new_path = parse_dirs(dirs, new_path, home);
-	while (dirs && dirs[i])
-	{	
-		free(dirs[i]);
-		i++;
-	}
-	free(dirs);
+	free_auto_tab(dirs);
+	ft_putstr("before end\n");
 	new_path = set_end_path(new_path, sentence);
-	return (new_path);
+	ft_putstr("after end\n");
+	ft_printf("new_path =%s,\n", new_path);
+	return (ft_strsplit(new_path, '\n'));
 }

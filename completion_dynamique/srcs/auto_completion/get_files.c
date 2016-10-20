@@ -76,8 +76,6 @@ t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_searc
 		ft_strdel(&tmp);
 		if (!lstat(path_file, &infos) && verif_file_match(to_search, fd->d_name))
 		{
-			if (!ft_strcmp(fd->d_name, "lwp-request5.18"))
-				ft_printf("got it %s,\n", fd->d_name);
 //			ft_printf("path_file =%s, name file =%s,\n",path_file, fd->d_name);
 //			i++;
 			if (!files)
