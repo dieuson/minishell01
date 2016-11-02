@@ -68,33 +68,23 @@ t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_searc
 
 	FT_INIT(t_file *, start, NULL);
 	FT_INIT(char*, path_file, NULL);
-	FT_INIT(char*, tmp, NULL);
+	FT_INIT(char*, tmp, ft_strjoin(path, "/"));
 	while ((fd = readdir(rep)))
 	{
-		tmp = ft_strjoin(path, "/");
-		path_file = ft_strjoin(tmp, fd->d_name);
-		ft_strdel(&tmp);
-		if (!lstat(path_file, &infos) && verif_file_match(to_search, fd->d_name))
+		if (verif_file_match(to_search, fd->d_name))
+			path_file = ft_strjoin(tmp, fd->d_name);
+		if (!files && path_file && !stat(path_file, &infos))
+			MULTI(start, files, create_cell(fd->d_name, S_ISDIR(infos.st_mode), path_file));
+		else if (path_file && !stat(path_file, &infos))
 		{
-//			ft_printf("path_file =%s, name file =%s,\n",path_file, fd->d_name);
-//			i++;
-			if (!files)
-				MULTI(start, files, create_cell(fd->d_name, S_ISDIR(infos.st_mode), path_file));
-			else
-			{
-				files->next = create_cell(fd->d_name, S_ISDIR(infos.st_mode)
-					, path_file);
-				files = files->next;
-			}
-			if (!ft_strcmp(files->name, "lwp-request5.18"))
-				ft_printf("FILES got it %s,\n", files->name);
+			files->next = create_cell(fd->d_name, S_ISDIR(infos.st_mode)
+				, path_file);
+			files = files->next;
 		}
-		ft_strdel(&path_file);
+		if (path_file)
+			ft_strdel(&path_file);
 	}
-	closedir(rep);
+	ft_strdel(&tmp);
 	files = start;
-//	ft_printf("START SORT LIST\n");
-//	files = sort_list(start);
-//	ft_printf("END SORT LIST\n");
 	return (files);
 }

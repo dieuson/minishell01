@@ -42,10 +42,15 @@ static int 		verif_matchs(t_file *files, size_t len_cmp, int nb_args)
 char 			*similarity(t_file *match_files, char *sentence)
 {
 	FT_INIT(int, len_cmp, ft_strlen(sentence));
+	//ft_putstr("test2\n");
+	FT_INIT(char*, tmp, NULL);
 	FT_INIT(char*, similarity, ft_strnew(match_files->len * 2));
+	//ft_putstr("test2\n");
 	FT_INIT(int, nb_args, match_files->nb_elem);
+	//ft_putstr("test2\n");
 	FT_INIT(int, verif, nb_args);
 
+	//ft_putstr("test2\n");
 	while (verif && len_cmp <= match_files->len)
 	{
 		verif = verif_matchs(match_files, len_cmp, nb_args);
@@ -53,18 +58,27 @@ char 			*similarity(t_file *match_files, char *sentence)
 			ft_strncpy(similarity, match_files->name, len_cmp);
 		len_cmp++;
 	}
+	//ft_putstr("test3\n");
 	if (similarity && ft_strlen(similarity))
 	{
 		if (nb_args == 1 && match_files->type)
 			ft_strcat(similarity, "/");
-		similarity += ft_strlen(sentence);
-		if (similarity && sentence && 
-			!ft_strcmp(similarity, sentence))
+		tmp = similarity;
+		similarity = ft_strdup(similarity + ft_strlen(sentence));
+		ft_strdel(&tmp);
+		if (similarity && sentence && !ft_strcmp(similarity, sentence))
+		{
+			ft_strdel(&similarity);
 			return (NULL);
+		}
 		ft_putstr(similarity);
 	}
 	else
-		similarity = sentence;
+	{
+		ft_strdel(&similarity);
+		similarity = ft_strdup(sentence);
+	}
+	//ft_putstr("test4\n");
 	return (similarity);
 }
 
