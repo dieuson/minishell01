@@ -67,11 +67,9 @@ char 			*similarity(t_file *match_files, char *sentence)
 		similarity = ft_strdup(similarity + ft_strlen(sentence));
 		ft_strdel(&tmp);
 		if (similarity && sentence && !ft_strcmp(similarity, sentence))
-		{
 			ft_strdel(&similarity);
-			return (NULL);
-		}
-		ft_putstr(similarity);
+		else
+			ft_putstr(similarity);
 	}
 	else
 	{

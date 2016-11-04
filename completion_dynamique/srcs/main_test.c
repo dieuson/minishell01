@@ -22,14 +22,14 @@ int main()
 
 	FT_INIT(int, i, 1);
 	FT_INIT(char*, inputs, "");
-
- 	fd_result = open("/home/dieuson/minishell01/completion_dynamique/srcs/result.txt",  O_RDONLY);
- 	fd_test = open("/home/dieuson/minishell01/completion_dynamique/srcs/test.txt",  O_RDONLY);
+	FT_INIT(char*, result_file, ft_strjoin(getenv("PWD"), "/srcs/result.txt"));
+	FT_INIT(char*, test_file, ft_strjoin(getenv("PWD"), "/srcs/test.txt"));
+ 	fd_result = open(result_file,  O_RDONLY);
+ 	fd_test = open(test_file,  O_RDONLY);
  	while (get_next_line(fd_test, &test))
  	{
-		inputs = test;
 		ft_printf("inputs =%s,\n", test);
-		inputs = detect_auto_comletion(inputs);
+		inputs = detect_auto_comletion(test);
 		get_next_line(fd_result, &result);
 		if (inputs)
 			ft_printf("output =%s,\n", inputs);
@@ -46,18 +46,18 @@ int main()
 		}
 		else
 			ft_putstr("\033[31mKO\033[0m\n");
- 		ft_strdel(&inputs);
- 		ft_strdel(&test);
- 		ft_strdel(&result);
+		ft_strdel(&inputs);
+//		ft_strdel(&test);
+		ft_strdel(&result);
  		i++;
- 		if (i > 2)
+ 		if (i > 3)
  			break;
  	}
  	i--;
- 	ft_strdel(&test);
+// 	ft_strdel(&test);
  	ft_printf("Results => OK: %d, KO: %d\n", val, i - val);
  	close(fd_result);
  	close(fd_test);
-
+ 	sleep(5);
 	return (0);
 }

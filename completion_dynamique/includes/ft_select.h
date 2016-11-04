@@ -49,6 +49,8 @@ typedef struct				s_shell
 
 void 						free_lists(t_file *match_files);
 void						free_auto_tab(char **table);
+void 						free_files(t_file **files_list);
+
 t_file						*sort_list(t_file *files);
 char 						*default_sentence(char *sentence);
 char						*detect_auto_comletion(char *sentence);

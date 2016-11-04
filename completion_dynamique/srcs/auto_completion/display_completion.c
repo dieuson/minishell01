@@ -37,6 +37,7 @@ void 			reset_cursor_pos(int len_str, int nb_colonnes, int nb_elem, char *senten
 static void		display_form(t_completion *all_col, int nb_elem, int len_str, int nb_col)
 {
 	FT_INIT(t_file *, col, all_col->elem);
+	FT_INIT(t_file *, tmp_col, col);
 	FT_INIT(t_completion *, head, all_col);
 	FT_INIT(char *, tmp, NULL);
 	FT_INIT(int, ref_col, 0);
@@ -47,7 +48,13 @@ static void		display_form(t_completion *all_col, int nb_elem, int len_str, int n
 		if (col)
 		{
 			tmp = set_sentence(tmp, len_str, col->name);
+			tmp_col = col;
 			col = col->next;
+
+			ft_strdel(&(tmp_col)->name);
+			ft_strdel(&(tmp_col)->absolute_path);
+			free(tmp_col);
+
 			all_col->elem = col;
 			if (!ref_col)
 				head = all_col;
@@ -82,6 +89,7 @@ void 			display_completion(char *sentence, t_file *match_files)
 		return ;
 	ft_putstr("\n");
 	FT_INIT(t_completion *, lst_lst, NULL);
+	FT_INIT(t_completion*, tmp_lst, NULL);
 	FT_INIT(float, nb_elem, (float)match_files->nb_elem);
 	FT_INIT(float, len_str, match_files->len);
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
@@ -89,8 +97,19 @@ void 			display_completion(char *sentence, t_file *match_files)
 	FT_INIT(float, nb_line, ws.ws_row);
 	FT_INIT(float, nb_elem_lst, arrondi(nb_elem / nb_col));
 	lst_lst = build_lst_lst(match_files, (nb_elem_lst == 0 ? 1 : nb_elem_lst), nb_col);
+	tmp_lst = lst_lst;
 	display_form(lst_lst, nb_elem, len_str, nb_col);
 //	printf("\nnb elem =%f, nb_elem_lst =%f, nb_col =%f, nb_line =%f\n", nb_elem, nb_elem_lst, nb_col, nb_line);
+	ft_putendl("\n\n\n");
+	lst_lst = tmp_lst;
+	while (lst_lst->next)
+	{
+		ft_putendl("LOOP DELETE\n");
+		tmp_lst = lst_lst;
+		lst_lst = lst_lst->next;
+		free(tmp_lst);
+	}
+	free(lst_lst);
 	ft_printf("\n%s", sentence);
 	if (nb_elem || len_str || nb_col || nb_line || nb_elem_lst || lst_lst)
 		return ;

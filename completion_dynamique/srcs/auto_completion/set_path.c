@@ -90,13 +90,13 @@ static char 	*set_end_path(char **new_path, char **sentence)
 		}
 		ft_strdel(sentence);
 		*sentence = ft_strdup("");
-//		ft_printf("SET END PATH second_str\n");
+	//	ft_printf("SET END PATH second_str\n");
 		return (second_str);
 	}
 //	ft_printf("first_str =%s,\n", first_str);
 	if (lstat(first_str, &infos) == -1)
 	{
-		ft_printf("42sh: %s: No such file or directory\n", first_str);
+	//	ft_printf("42sh: %s: No such file or directory\n", first_str);
 		ft_strdel(&first_str);
 		return (NULL);
 	}
@@ -119,7 +119,7 @@ char 			**set_path(char **sentence, char *home, char *current_path)
 	FT_INIT(char*, tmp, NULL);
 	home = !home ? "" : home;
 	current_path = !current_path ? "" : current_path;
-	ft_putstr("test3\n");
+//	ft_putstr("test3\n");
 	if (!ft_strchr(*sentence, ' ') && *sentence[0] != '/' && ft_strlen(current_path))
 		return (ft_strsplit(getenv("PATH"), ':'));
 	else
@@ -131,21 +131,21 @@ char 			**set_path(char **sentence, char *home, char *current_path)
 			ft_strdel(&tmp);
 		}
 	}
-	ft_printf("sentence =%s,\n", *sentence);
+//	ft_printf("sentence =%s,\n", *sentence);
 	new_path = set_begining(*sentence, home, *sentence[0] == '/' ? ""
 		: current_path);
-//	sentence = ft_strdup(new_path);
-	ft_printf("new_path =%s,\n", new_path);
+//	sentence = ft_strdup(new_path);///
+//	ft_printf("new_path =%s,\n", new_path);
 	dirs = ft_strsplit(new_path, '/');
-	ft_putstr("test4\n");
+//	ft_putstr("test4\n");
 	ft_bzero((void*)new_path, ft_strlen(new_path));
 	ft_strcat(new_path, "/");
 	new_path = parse_dirs(dirs, new_path, home);
 	free_auto_tab(dirs);
-	ft_putstr("before end\n");
+//	ft_putstr("before end\n");
 	new_path = set_end_path(&new_path, sentence);
-	ft_putstr("after end\n");
-	ft_printf("new_path =%s,\n", new_path);
+//	ft_putstr("after end\n");///
+//	ft_printf("new_path =%s,\n", new_path);
 	dirs = ft_strsplit(new_path, '\n');
 	ft_strdel(&new_path);
 	return (dirs);
