@@ -3,11 +3,13 @@
 static int 			compare(char *str1, char *str2)
 {
 	FT_INIT(int, diff, 0);
-	FT_INIT(char*, s1, ft_strtolower(ft_strdup(str1)));
-	FT_INIT(char*, s2, ft_strtolower(ft_strdup(str2)));
+//	FT_INIT(char*, s1, ft_strtolower(ft_strdup(str1)));
+//	FT_INIT(char*, s2, ft_strtolower(ft_strdup(str2)));
+	FT_INIT(char*, s1, str1);
+	FT_INIT(char*, s2, str2);
 	diff = ft_strcmp(s1, s2);
-	ft_strdel(&s1);
-	ft_strdel(&s2);
+//	ft_strdel(&s1);
+//	ft_strdel(&s2);
 	return (diff);
 }
 
@@ -54,6 +56,9 @@ int 				verif_file_match(char *to_search, char *file)
 {
 	if (!to_search || !file)
 		return (0);
+	if (!ft_strcmp(file, ".") || !ft_strcmp(file, ".."))
+		if (ft_strcmp(to_search, ".") && ft_strcmp(to_search, ".."))
+		return (0);
 	if (ft_strlen(to_search) <= ft_strlen(file) &&
 	 !ft_strncmp(file, to_search, ft_strlen(to_search)))
 		return (1);
@@ -69,6 +74,7 @@ t_file 				*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_searc
 	FT_INIT(t_file *, start, NULL);
 	FT_INIT(char*, path_file, NULL);
 	FT_INIT(char*, tmp, ft_strjoin(path, "/"));
+	ft_printf("to_search =%s,\n", to_search);
 	while ((fd = readdir(rep)))
 	{
 		if (verif_file_match(to_search, fd->d_name))

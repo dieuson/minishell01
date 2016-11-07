@@ -50,7 +50,7 @@ int main()
 //		ft_strdel(&test);
 		ft_strdel(&result);
  		i++;
- 		if (i > 3)
+ 		if (i > 5)
  			break;
  	}
  	i--;

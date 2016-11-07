@@ -23,10 +23,10 @@ void 			free_files(t_file **files_list)
 	
 	if (!(*files_list))
 		return ;
-	ft_putstr("START DELETE FILES_LIST\n\n\n");
+//	ft_putstr("START DELETE FILES_LIST\n\n\n");
 	while((*files_list))
 	{
-		ft_putendl((*files_list)->name);
+//		ft_putendl((*files_list)->name);
 		ft_strdel(&((*files_list)->name));
 		ft_strdel(&((*files_list)->absolute_path));
 		tmp = (*files_list);

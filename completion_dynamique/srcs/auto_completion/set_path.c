@@ -90,7 +90,6 @@ static char 	*set_end_path(char **new_path, char **sentence)
 		}
 		ft_strdel(sentence);
 		*sentence = ft_strdup("");
-	//	ft_printf("SET END PATH second_str\n");
 		return (second_str);
 	}
 //	ft_printf("first_str =%s,\n", first_str);

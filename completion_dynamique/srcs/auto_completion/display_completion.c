@@ -42,8 +42,10 @@ static void		display_form(t_completion *all_col, int nb_elem, int len_str, int n
 	FT_INIT(char *, tmp, NULL);
 	FT_INIT(int, ref_col, 0);
 	tmp = ft_strnew(ft_strlen(col->name) + 4096);
-	while (all_col && nb_elem > 0)
+	while (all_col && nb_elem)
 	{
+		if (!ref_col)
+			head = all_col;
 		col = all_col->elem;
 		if (col)
 		{
@@ -55,20 +57,20 @@ static void		display_form(t_completion *all_col, int nb_elem, int len_str, int n
 			ft_strdel(&(tmp_col)->absolute_path);
 			free(tmp_col);
 
+			nb_elem--;
 			all_col->elem = col;
-			if (!ref_col)
-				head = all_col;
 		}
 		if (ref_col >= nb_col - 1)
 		{
 			ft_putendl("");
-			ref_col = -1;
+			ref_col = 0;
 			all_col = head;
 		}
 		else
+		{
+			ref_col++;
 			all_col = all_col->next;
-		ref_col++;
-		nb_elem--;
+		}
 	}
 	ft_strdel(&tmp);
 }
@@ -76,9 +78,18 @@ static void		display_form(t_completion *all_col, int nb_elem, int len_str, int n
 int 			arrondi(float val)
 {
 	FT_INIT(int, val2, val);
-	if (val - val2 > 0.5)
+	FT_INIT(float, result, val - val2);
+	if (result >= 0.5)
 		return (val2 + 1);
-	return (val);
+	return (val2);
+}
+
+int 			ft_nb_elem_lst(int nb_elem, int nb_col)
+{
+	FT_INIT(float, result, 0);
+	while (result * nb_col < nb_elem)
+		result++;
+	return (result);
 }
 
 void 			display_completion(char *sentence, t_file *match_files)
@@ -91,20 +102,20 @@ void 			display_completion(char *sentence, t_file *match_files)
 	FT_INIT(t_completion *, lst_lst, NULL);
 	FT_INIT(t_completion*, tmp_lst, NULL);
 	FT_INIT(float, nb_elem, (float)match_files->nb_elem);
-	FT_INIT(float, len_str, match_files->len);
+	FT_INIT(float, len_str, (float)match_files->len);
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 	FT_INIT(float, nb_col, arrondi(ws.ws_col / (len_str + 2)));
 	FT_INIT(float, nb_line, ws.ws_row);
-	FT_INIT(float, nb_elem_lst, arrondi(nb_elem / nb_col));
+	FT_INIT(float, nb_elem_lst, ft_nb_elem_lst(nb_elem, nb_col));
+//	printf("\nnb elem =%f, nb_elem_lst =%f, nb_col =%f, nb_line =%f\n", nb_elem, nb_elem_lst, nb_col, nb_line);
+//	ft_printf("display nb_col =%d, len_str =%d,\n", ws.ws_col, (len_str + 2));
 	lst_lst = build_lst_lst(match_files, (nb_elem_lst == 0 ? 1 : nb_elem_lst), nb_col);
 	tmp_lst = lst_lst;
 	display_form(lst_lst, nb_elem, len_str, nb_col);
-//	printf("\nnb elem =%f, nb_elem_lst =%f, nb_col =%f, nb_line =%f\n", nb_elem, nb_elem_lst, nb_col, nb_line);
-	ft_putendl("\n\n\n");
 	lst_lst = tmp_lst;
 	while (lst_lst->next)
 	{
-		ft_putendl("LOOP DELETE\n");
+//		ft_putendl("LOOP DELETE\n");
 		tmp_lst = lst_lst;
 		lst_lst = lst_lst->next;
 		free(tmp_lst);

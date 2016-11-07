@@ -15,15 +15,15 @@ void		free_simple_tab(char ***tab_to_del)
 	*tab_to_del = NULL;
 }
 
-char 			*default_sentence(char *sentence)
+char 			*default_sentence(char **sentence)
 {
 	FT_INIT(char **, path, NULL);
 	FT_INIT(int, i, 0);
 	FT_INIT(char*, tmp, NULL);
 	FT_INIT(char*, str, ft_strdup(""));
-	if (!ft_strchr(sentence, ' '))
-		return (sentence);
-	path = ft_strsplit(sentence, ' ');
+	if (!ft_strchr(*sentence, ' '))
+		return (*sentence);
+	path = ft_strsplit(*sentence, ' ');
 	while (path && path[i])
 	{
 		tmp = str;
@@ -40,5 +40,6 @@ char 			*default_sentence(char *sentence)
 		i++;
 	}
 	free_simple_tab(&path);
+	ft_strdel(sentence);
 	return (str);
 }

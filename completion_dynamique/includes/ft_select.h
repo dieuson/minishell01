@@ -52,7 +52,7 @@ void						free_auto_tab(char **table);
 void 						free_files(t_file **files_list);
 
 t_file						*sort_list(t_file *files);
-char 						*default_sentence(char *sentence);
+char 						*default_sentence(char **sentence);
 char						*detect_auto_comletion(char *sentence);
 t_file 						*store_files_dirs(DIR *rep, t_file *files, char *path, char *to_search);
 t_file 						*compare_list_sentence(t_file *files, char *sentence);
